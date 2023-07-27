@@ -248,13 +248,7 @@ export default function Home({ dir }) {
             </ul>
           </div>
           <div className="flex justify-center items-center">
-            <Image
-              src="/logo4.svg"
-              width={45}
-              height={15}
-              alt="dyloge"
-              priority
-            />
+            <Image src="/logo4.svg" width={45} height={15} alt="dyloge" />
             <div className="flex flex-col ">
               <p className="font-bold text-lg">{logo}</p>
             </div>
