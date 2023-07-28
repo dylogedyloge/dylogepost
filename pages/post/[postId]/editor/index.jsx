@@ -306,42 +306,40 @@ export default function Editor(props) {
   ]);
 
   return (
-    <div className="overflow-auto min-h-screen">
-      <div className="">
+    <div className="overflow-auto min-h-screen min-w-screen">
+      <div className="mb-20">
         <div
           onClick={() => {
             editor?.chain().focus().run();
           }}
-          className="card min-h-[500px] p-6 sm:mb-[calc(20vh)] "
+          className="min-h-screen "
         >
-          <div className="card p-6  ml-16">
-            <div className="card-title text-2xl font-bold mt-4 mb-6 prose ">
+          <div className="px-10">
+            <div className=" text-2xl font-bold mt-4 mb-6 prose-sm ">
               {props.title}
             </div>
-            <div className="mb-10 text-justify prose w-full">
+            <div className="mb-10 text-justify w-full prose-sm">
               {props.metaDescription}
             </div>
-            <div className="font-bold prose">Keywords</div>
+            <div className="font-bold prose-sm">Keywords</div>
             <div>
               {props.keywords.split(",").map((keyword, i) => (
-                <div key={i} className="prose">
+                <div key={i} className="prose-sm">
                   {keyword}
                 </div>
               ))}
             </div>
           </div>
+          <div className="divider"></div>
           {editor && <EditorBubbleMenu editor={editor} />}
-          <EditorContent editor={editor} className="p-10 prose w-full ml-12" />
-          <button
-            className="btn btn-block capitalize "
-            onClick={handleSaveChanges}
-          >
+          <EditorContent editor={editor} className="p-10 prose-sm w-full" />
+          <button className="btn capitalize  " onClick={handleSaveChanges}>
             Save changes
           </button>
         </div>
         {/* Actions */}
 
-        <div className="p-10 flex justify-between">
+        <div className="flex justify-between items-center mx-6">
           <DeleteConfirmationModal onDelete={handleDeleteConfirm} />
           <div
             className="tooltip tooltip-left capitalize"

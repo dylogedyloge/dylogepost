@@ -1,1 +1,1 @@
-export * from "./Player1";
+export * from "./WhiteNoisePlayer";

@@ -1,5 +1,6 @@
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faTrash } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BsFillTrashFilll } from "react-icons/bs";
 import { useState } from "react";
 
 const DeleteConfirmationModal = ({ onDelete }) => {
@@ -22,7 +23,8 @@ const DeleteConfirmationModal = ({ onDelete }) => {
     <div>
       <div className="tooltip tooltip-left capitalize" data-tip="delete">
         <button className="btn " onClick={openModal}>
-          <FontAwesomeIcon icon={faTrash} color="#F87272" />
+          {/* <FontAwesomeIcon icon={faTrash} color="#F87272" /> */}
+          <BsFillTrashFilll />
         </button>
       </div>
 

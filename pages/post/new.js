@@ -48,13 +48,13 @@ export default function NewPost(props) {
           >
             <div className="mb-5 ">
               <label className="label grid place-content-center mb-4">
-                <span className="label-text text-md font-semibold prose">
+                <span className="label-text  font-semibold prose-sm text-sm">
                   Topic
                 </span>
               </label>
               <textarea
-                placeholder="Top 10 tips for happiness prose"
-                className="textarea border border-1 w-full"
+                // placeholder="Top 10 tips for happiness "
+                className="textarea textarea-bordered w-full prose-sm text-sm"
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
                 maxLength={80}
@@ -62,13 +62,20 @@ export default function NewPost(props) {
             </div>
             <div className="mb-10">
               <label className="label grid place-content-center mb-4">
-                <span className="label-text text-md font-semibold prose ">
-                  Keywords (Seperate with comma)
+                <span className="label-text  ">
+                  <div className="grid place-items-center">
+                    <div className="font-semibold prose-sm text-sm">
+                      Keywords{" "}
+                    </div>
+                    <div className="prose-sm text-xs text-base-content/75">
+                      Seperate with comma
+                    </div>
+                  </div>
                 </span>
               </label>
               <textarea
-                placeholder="happines, self-steem, Anthony Robins"
-                className="textarea w-full border border-1 prose"
+                // placeholder="happines, self-steem, Anthony Robins"
+                className="textarea textarea-bordered w-full  prose-sm text-sm"
                 value={keywords}
                 onChange={(e) => setKeywords(e.target.value)}
                 maxLength={80}
@@ -79,7 +86,7 @@ export default function NewPost(props) {
               className="btn btn-block capitalize"
               disabled={!topic.trim() || !keywords.trim()}
             >
-              Generate
+              <div className="prose-sm text-sm"> Generate</div>
             </button>
           </form>
         </div>

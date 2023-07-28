@@ -55,7 +55,7 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import { BsPlayFill, BsPauseFill } from "react-icons/bs";
 
-const MusicPlayer = () => {
+const WhiteNoisePlayer = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -71,17 +71,17 @@ const MusicPlayer = () => {
   return (
     <div>
       <button
-        className="btn btn-ghost outline outline-1 fixed bottom-4 right-14 prose"
+        className="btn btn-neutral btn-sm outline outline-1 fixed bottom-4 right-14 prose-sm text-xs"
         onClick={handlePlayPause}
       >
         {isPlaying ? (
-          <BsPauseFill size={24} className="prose" />
+          <BsPauseFill size={24} className="prose-sm text-xs" />
         ) : (
-          <BsPlayFill size={24} className="prose" />
+          <BsPlayFill size={24} className="prose-sm text-xs" />
         )}
       </button>
       {!isPlaying && (
-        <div className="fixed bottom-4 right-32 prose">
+        <div className="fixed bottom-4 right-32 prose-sm text-xs">
           {/* <select
             className="border border-gray-300 rounded-md px-2 py-1 focus:outline-none"
             value={selectedOption}
@@ -92,28 +92,28 @@ const MusicPlayer = () => {
             <option value="/audio/audio2.mp3">Music 2</option>
           </select> */}
           <select
-            className="select  outline outline-1 w-full max-w-xs prose text-sm"
+            className="select select-ghost outline outline-1 select-sm max-w-xs prose-sm text-sm"
             value={selectedOption}
             onChange={handleOptionChange}
           >
-            <option disabled selected>
+            <option disabled selected className="text-xs prose-sm">
               White Noise
             </option>
             <option
               value="https://ia802805.us.archive.org/31/items/relaxingsounds/FIRE%201%2010h%20CracklingCampfire%2CCrickets%2CRainOrRiver-Night.mp3"
-              className="prose"
+              className="text-xs prose-sm"
             >
               Capmfire
             </option>
             <option
               value="https://ia802805.us.archive.org/31/items/relaxingsounds/Waves%201%2010h%20Beach-Sunset%20into%20Night.mp3"
-              className="prose"
+              className="text-xs prose-sm"
             >
               Beach Sunset
             </option>
             <option
               value="https://ia902805.us.archive.org/31/items/relaxingsounds/Rain%207%20%28Lightest%29%208h%20DripsOnTrees-no%20thunder.mp3"
-              className="prose"
+              className="text-xs prose-sm"
             >
               Lightest Rain
             </option>
@@ -135,4 +135,4 @@ const MusicPlayer = () => {
   );
 };
 
-export default MusicPlayer;
+export default WhiteNoisePlayer;

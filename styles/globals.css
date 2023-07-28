@@ -4,22 +4,22 @@
 
 @layer base {
   h1 {
-    @apply font-bold my-6 prose;
+    @apply font-bold my-6 prose-sm;
   }
   h2 {
-    @apply font-bold my-5 prose;
+    @apply font-bold my-5 prose-sm;
   }
   h3 {
-    @apply font-bold my-4 prose;
+    @apply font-bold my-4 prose-sm;
   }
   h4 {
-    @apply font-bold my-3 prose;
+    @apply font-bold my-3 prose-sm;
   }
   p {
-    @apply text-justify prose;
+    @apply text-justify prose-sm;
   }
   button {
-    @apply prose;
+    @apply prose-sm;
   }
 
   ul {
@@ -33,9 +33,30 @@
     @apply my-4;
   }
   li {
-    @apply my-2;
+    @apply my-2 prose-sm;
   }
 }
 .text-indent {
   text-indent: 1.5rem;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
