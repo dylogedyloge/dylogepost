@@ -1,6 +1,4 @@
-// import { faTrash } from "@fortawesome/free-solid-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { BsFillTrashFilll } from "react-icons/bs";
+import { BsTrash3 } from "react-icons/bs";
 import { useState } from "react";
 
 const DeleteConfirmationModal = ({ onDelete }) => {
@@ -21,26 +19,27 @@ const DeleteConfirmationModal = ({ onDelete }) => {
 
   return (
     <div>
-      <div className="tooltip tooltip-left capitalize" data-tip="delete">
-        <button className="btn " onClick={openModal}>
-          {/* <FontAwesomeIcon icon={faTrash} color="#F87272" /> */}
-          <BsFillTrashFilll />
-        </button>
-      </div>
+      <button className="btn capitalize" onClick={openModal}>
+        <BsTrash3 />
+        <div className="hidden sm:block prose-sm text-xs">Delete</div>
+      </button>
 
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-10">
           <div className="modal modal-open">
             <div className="modal-box">
-              <p>Are you sure you want to delete this item?</p>
+              <p>Are you sure you want to delete this blog post?</p>
               <div className="modal-action">
                 <button
-                  className="btn btn-error capitalize"
+                  className="btn btn-error capitalize prose-sm text-xs"
                   onClick={handleDelete}
                 >
                   Delete
                 </button>
-                <button className="btn capitalize" onClick={closeModal}>
+                <button
+                  className="btn capitalize prose-sm text-xs"
+                  onClick={closeModal}
+                >
                   Cancel
                 </button>
               </div>

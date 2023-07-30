@@ -1,56 +1,4 @@
-// import { BsFillPlayCircleFill } from "react-icons/bs";
-// import Player from "@madzadev/audio-player";
-// import "@madzadev/audio-player/dist/index.css";
-
-// const tracks = [
-//   {
-//     url: "https://audioplayer.madza.dev/Madza-Chords_of_Life.mp3",
-//     title: "Madza - Chords of Life",
-//     tags: ["house"],
-//   },
-//   {
-//     url: "https://audioplayer.madza.dev/Madza-Late_Night_Drive.mp3",
-//     title: "Madza - Late Night Drive",
-//     tags: ["dnb"],
-//   },
-//   {
-//     url: "https://audioplayer.madza.dev/Madza-Persistence.mp3",
-//     title: "Madza - Persistence",
-//     tags: ["dubstep"],
-//   },
-// ];
-// const Player1 = () => {
-//   return (
-//     <div className="">
-//       <Player trackList={tracks} />
-//       {/* <div
-//         className="radial-progress fixed bottom-4 right-14"
-//         style={{ "--value": "70", "--size": "3rem", "--thickness": "2px" }}
-//       > */}
-//       <div className="dropdown dropdown-top dropdown-end fixed bottom-3 right-14 prose">
-//         <label tabIndex={0} className="btn btn-ghost btn-circle">
-//           <BsFillPlayCircleFill className="w-10 h-10 object-cover" />
-//         </label>
-
-//         <ul
-//           tabIndex={0}
-//           className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-//         >
-//           <li>
-//             <a>Item 1</a>
-//           </li>
-//           <li>
-//             <a>Item 2</a>
-//           </li>
-//         </ul>
-//       </div>
-//       {/* </div> */}
-//     </div>
-//   );
-// };
-
-// export default Player1;
-import React, { useState } from "react";
+import { useState } from "react";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import { BsPlayFill, BsPauseFill } from "react-icons/bs";
@@ -82,15 +30,6 @@ const WhiteNoisePlayer = () => {
       </button>
       {!isPlaying && (
         <div className="fixed bottom-4 right-32 prose-sm text-xs">
-          {/* <select
-            className="border border-gray-300 rounded-md px-2 py-1 focus:outline-none"
-            value={selectedOption}
-            onChange={handleOptionChange}
-          >
-            <option value="">Select Music</option>
-            <option value="/audio/audio1.mp3">Music 1</option>
-            <option value="/audio/audio2.mp3">Music 2</option>
-          </select> */}
           <select
             className="select select-ghost outline outline-1 select-sm max-w-xs prose-sm text-sm"
             value={selectedOption}

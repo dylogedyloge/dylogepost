@@ -5,17 +5,17 @@ import { useIntl } from "react-intl";
 import Flag from "react-world-flags";
 import { useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
-import {
-  faAnchor,
-  faAppleWhole,
-  faBabyCarriage,
-  faChalkboard,
-  faCode,
-  faFile,
-  faImage,
-  faPencil,
-  faToolbox,
-} from "@fortawesome/free-solid-svg-icons";
+// import {
+//   faAnchor,
+//   faAppleWhole,
+//   faBabyCarriage,
+//   faChalkboard,
+//   faCode,
+//   faFile,
+//   faImage,
+//   faPencil,
+//   faToolbox,
+// } from "@fortawesome/free-solid-svg-icons";
 import {
   BsFacebook,
   BsFillMoonStarsFill,
@@ -148,65 +148,65 @@ export default function Home({ dir }) {
   });
 
   // Features Data
-  const featuresData = [
-    {
-      title: featuresCodingTitle,
-      description: featuresCodingDescription,
-      icon: faCode,
-    },
-    {
-      title: featuresWritingTitle,
-      description: featuresWritingDescription,
-      icon: faPencil,
-    },
-    {
-      title: featuresImagesTitle,
-      description: featuresImagesDescription,
-      icon: faImage,
-    },
-    {
-      title: featuresLearningTitle,
-      description: featuresLearningDescription,
-      icon: faChalkboard,
-    },
-    {
-      title: featuresFilesTitle,
-      description: featuresFilesDescription,
-      icon: faFile,
-    },
-    {
-      title: featuresOthersTitle,
-      description: featuresOthersDescription,
-      icon: faToolbox,
-    },
-  ];
+  // const featuresData = [
+  //   {
+  //     title: featuresCodingTitle,
+  //     description: featuresCodingDescription,
+  //     icon: faCode,
+  //   },
+  //   {
+  //     title: featuresWritingTitle,
+  //     description: featuresWritingDescription,
+  //     icon: faPencil,
+  //   },
+  //   {
+  //     title: featuresImagesTitle,
+  //     description: featuresImagesDescription,
+  //     icon: faImage,
+  //   },
+  //   {
+  //     title: featuresLearningTitle,
+  //     description: featuresLearningDescription,
+  //     icon: faChalkboard,
+  //   },
+  //   {
+  //     title: featuresFilesTitle,
+  //     description: featuresFilesDescription,
+  //     icon: faFile,
+  //   },
+  //   {
+  //     title: featuresOthersTitle,
+  //     description: featuresOthersDescription,
+  //     icon: faToolbox,
+  //   },
+  // ];
   // Testimonials Data
-  const testimonialsData = [
-    {
-      text: testimonialsDescription1,
-      name: testimonialsAuthor1,
-      avatar: "/avatar1.jpg",
-      position: testimonialsPosition1,
-      company: testimonialsCompany1,
-      companyLogo: faAnchor,
-    },
-    {
-      text: testimonialsDescription2,
-      name: testimonialsAuthor2,
-      avatar: "/avatar2.jpg",
-      position: testimonialsPosition2,
-      company: testimonialsCompany2,
-      companyLogo: faBabyCarriage,
-    },
-    {
-      text: testimonialsDescription3,
-      name: testimonialsAuthor3,
-      avatar: "/avatar3.jpg",
-      position: testimonialsPosition3,
-      company: testimonialsCompany3,
-      companyLogo: faAppleWhole,
-    },
-  ];
+  // const testimonialsData = [
+  //   {
+  //     text: testimonialsDescription1,
+  //     name: testimonialsAuthor1,
+  //     avatar: "/avatar1.jpg",
+  //     position: testimonialsPosition1,
+  //     company: testimonialsCompany1,
+  //     companyLogo: faAnchor,
+  //   },
+  //   {
+  //     text: testimonialsDescription2,
+  //     name: testimonialsAuthor2,
+  //     avatar: "/avatar2.jpg",
+  //     position: testimonialsPosition2,
+  //     company: testimonialsCompany2,
+  //     companyLogo: faBabyCarriage,
+  //   },
+  //   {
+  //     text: testimonialsDescription3,
+  //     name: testimonialsAuthor3,
+  //     avatar: "/avatar3.jpg",
+  //     position: testimonialsPosition3,
+  //     company: testimonialsCompany3,
+  //     companyLogo: faAppleWhole,
+  //   },
+  // ];
 
   return (
     <main className="min-w-fit" dir={dir}>
@@ -272,7 +272,7 @@ export default function Home({ dir }) {
             <h1 className="text-8xl font-bold ">{logo}</h1>
             <div className="py-6 prose-sm">{heroDescription}</div>
 
-            <Link href="/post/new" className="btn btn-neutral">
+            <Link href="/post/new" className="btn btn-neutral capitalize">
               {getStartedButton}
             </Link>
           </div>

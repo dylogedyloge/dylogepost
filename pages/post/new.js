@@ -3,6 +3,7 @@ import { AppLayout } from "../../components/AppLayout";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { getAppProps } from "../../utils/getAppProps";
+import GuideLoading from "../../components/GuideLoading/GuideLoading";
 
 export default function NewPost(props) {
   const router = useRouter();
@@ -37,7 +38,8 @@ export default function NewPost(props) {
       {!!generating && (
         <div className=" grid h-screen place-items-center ">
           {" "}
-          <span className="loading loading-ring loading-sm"></span>
+          {/* <span className="loading loading-ring loading-sm"></span> */}
+          <GuideLoading />
         </div>
       )}
       {!generating && (

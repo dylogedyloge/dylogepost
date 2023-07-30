@@ -11,8 +11,8 @@ import { TiptapEditorProps } from "./props";
 import { TiptapExtensions } from "./extensions";
 // import useLocalStorage from "../../../../lib/hooks/use-local-storage";
 import DeleteConfirmationModal from "../../../../components/DeletConfirmation/DeletConfirmation";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload, faRepeat } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faDownload, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FileIcon, defaultStyles } from "react-file-icon";
 import { saveAs } from "file-saver";
 import PostsContext from "../../../../context/postsContext";
@@ -21,49 +21,22 @@ import { useCompletion } from "ai/react";
 import { toast } from "sonner";
 import va from "@vercel/analytics";
 import { EditorBubbleMenu } from "./components";
-import { BsFillCheckSquareFill, BsFillSquareFill } from "react-icons/bs";
+import {
+  BsDatabaseFillCheck,
+  BsDownload,
+  BsFillCheckSquareFill,
+  BsRepeat,
+} from "react-icons/bs";
 import { useRouter } from "next/router";
 import { BiSolidErrorCircle } from "react-icons/bi";
 
 export default function Editor(props) {
-  const [htmlObject, setHtmlObject] = useState(null);
   // const [content, setContent] = useLocalStorage("content", null);
   const [content, setContent] = useState("");
   console.log(props.postContent);
   useEffect(() => {
     setContent(props.postContent);
   }, [props.postContent]);
-  // useEffect(() => {
-  //   const fetchHtmlObject = async () => {
-  //     try {
-  //       const html = props.postContent;
-  //       const response = await fetch("/api/htmlToObject", {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({ html }),
-  //       });
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch HTML object");
-  //       }
-  //       const data = await response.json();
-
-  //       setHtmlObject(data.htmlObject);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //     // console.log(props.postContent);
-  //   };
-
-  //   fetchHtmlObject();
-  // }, [props.postContent]);
-
-  // useEffect(() => {
-  //   if (htmlObject !== null) {
-  //     setContent(htmlObject);
-  //   }
-  // }, [htmlObject]);
 
   // Delete
   const router = useRouter();
@@ -134,22 +107,6 @@ export default function Editor(props) {
   // Save Changes
   const handleSaveChanges = async () => {
     try {
-      // const response = await fetch(`/api/getPostById`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     postId: props.id,
-      //   }),
-      // });
-      // const data = await response.json();
-      // const postContent = data.content;
-
-      // const editedContent = postContent.replace(
-      //   node.children[0].data,
-      //   currentText
-      // );
       const editedContent = editor.getHTML();
       console.log(editedContent);
       const editResponse = await fetch(`/api/editPost`, {
@@ -312,7 +269,7 @@ export default function Editor(props) {
           onClick={() => {
             editor?.chain().focus().run();
           }}
-          className="min-h-screen "
+          className="min-h-screen min-w-screen sm:mx-10"
         >
           <div className="px-10">
             <div className=" text-2xl font-bold mt-4 mb-6 prose-sm ">
@@ -333,31 +290,33 @@ export default function Editor(props) {
           <div className="divider"></div>
           {editor && <EditorBubbleMenu editor={editor} />}
           <EditorContent editor={editor} className="p-10 prose-sm w-full" />
-          <button className="btn capitalize  " onClick={handleSaveChanges}>
-            Save changes
-          </button>
         </div>
         {/* Actions */}
 
-        <div className="flex justify-between items-center mx-6">
+        <div className="flex justify-between items-center mx-10 sm:mx-20">
           <DeleteConfirmationModal onDelete={handleDeleteConfirm} />
-          <div
-            className="tooltip tooltip-left capitalize"
-            data-tip="regenerate"
-          >
-            <button className="btn ">
-              <FontAwesomeIcon icon={faRepeat} />
-            </button>
-          </div>
-          <div className="dropdown  dropdown-top dropdown-end">
-            <div
-              className="tooltip tooltip-left capitalize"
-              data-tip="download"
-            >
-              <label tabIndex={0} className="btn m-1">
-                <FontAwesomeIcon icon={faDownload} />
-              </label>
+
+          <button className="btn  " onClick={handleSaveChanges}>
+            <BsDatabaseFillCheck />
+            <div className="hidden sm:block capitalize prose-sm text-xs">
+              Save Changes
             </div>
+          </button>
+
+          <button className="btn">
+            <BsRepeat />
+            <div className="hidden sm:block capitalize prose-sm text-xs">
+              Regenerate
+            </div>
+          </button>
+
+          <div className="dropdown  dropdown-top dropdown-end">
+            <label tabIndex={0} className="btn m-1 ">
+              <BsDownload />
+              <div className="hidden sm:block capitalize prose-sm text-xs">
+                Download
+              </div>
+            </label>
 
             <ul
               tabIndex={0}
