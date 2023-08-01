@@ -18,6 +18,9 @@ import {
   BsList,
   BsPalette2,
   BsPlusLg,
+  BsFillCameraReelsFill,
+  BsVectorPen,
+  BsFillPenFill,
 } from "react-icons/bs";
 import WhiteNoisePlayer from "../Player/WhiteNoisePlayer";
 import { RxAvatar } from "react-icons/rx";
@@ -94,15 +97,19 @@ export const AppLayout = ({
                   </div>
                 </div>
               </div>
-              <div className="flex justify-between items-center gap-8">
-                <div className="dropdown dropdown-end">
+              <div className="flex justify-between items-center gap-20">
+                <div className="dropdown dropdown-end ">
                   <label
                     tabIndex={0}
                     className="btn btn-link no-underline hover:no-underline text-base-content btn-circle capitalize"
                   >
                     <div className="flex justify-between items-center gap-2">
-                      <BsFillFolderFill size={20} />
-                      <div className="prose-sm text-xs font-bold">Posts</div>
+                      <div className="p-1 rounded-md border border-1 border-base-content/50">
+                        <BsFillFileTextFill size={10} />
+                      </div>
+                      <div className="prose-sm text-xs font-bold w-32 text-left">
+                        blog posts
+                      </div>
                     </div>
                   </label>
                   <div
@@ -119,6 +126,214 @@ export const AppLayout = ({
                             <BsPlusLg />
                             <p className="capitalize text-xs">
                               Create New post
+                            </p>
+                          </Link>
+                        </li>
+                        {posts.map((post) => (
+                          <li
+                            key={post._id}
+                            className="flex justify-between flex-row"
+                          >
+                            <div className="flex-1 overflow-hidden items-center">
+                              <BsFillFileTextFill />
+                              <Link
+                                href={`/post/${post._id}/editor`}
+                                className="truncate prose-sm text-xs"
+                              >
+                                {post.title
+                                  ? removeHtmlTagsAndQuotation(post.title)
+                                  : post.topic}
+                              </Link>
+                            </div>
+                          </li>
+                        ))}
+                        <li>
+                          {!noMorePosts && (
+                            <div
+                              onClick={() => {
+                                getPosts({
+                                  lastPostDate: posts[posts.length - 1].create,
+                                });
+                              }}
+                              className="cursor-pointer capitalize grid place-content-center"
+                            >
+                              <div className="prose-sm ">
+                                <BsArrowClockwise size={18} />
+                              </div>
+                            </div>
+                          )}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="dropdown dropdown-end">
+                  <label
+                    tabIndex={0}
+                    className="btn btn-link no-underline hover:no-underline text-base-content btn-circle capitalize"
+                  >
+                    <div className="flex justify-between items-center gap-2 ">
+                      <div className="p-1 rounded-md border border-1 border-base-content/50">
+                        <BsFillCameraReelsFill size={10} />
+                      </div>
+                      <div className="prose-sm text-xs font-bold  w-32 text-left">
+                        movie scripts
+                      </div>
+                    </div>
+                  </label>
+                  <div
+                    tabIndex={0}
+                    className=" z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
+                  >
+                    <div className="h-64 overflow-y-auto whitespace-normal">
+                      <ul className="menu">
+                        <li>
+                          <Link
+                            href="/post/new"
+                            className="btn btn-neutral grid place-content-center "
+                          >
+                            <BsPlusLg />
+                            <p className="capitalize text-xs">
+                              Create New Movie Script
+                            </p>
+                          </Link>
+                        </li>
+                        {posts.map((post) => (
+                          <li
+                            key={post._id}
+                            className="flex justify-between flex-row"
+                          >
+                            <div className="flex-1 overflow-hidden items-center">
+                              <BsFillFileTextFill />
+                              <Link
+                                href={`/post/${post._id}/editor`}
+                                className="truncate prose-sm text-xs"
+                              >
+                                {post.title
+                                  ? removeHtmlTagsAndQuotation(post.title)
+                                  : post.topic}
+                              </Link>
+                            </div>
+                          </li>
+                        ))}
+                        <li>
+                          {!noMorePosts && (
+                            <div
+                              onClick={() => {
+                                getPosts({
+                                  lastPostDate: posts[posts.length - 1].create,
+                                });
+                              }}
+                              className="cursor-pointer capitalize grid place-content-center"
+                            >
+                              <div className="prose-sm ">
+                                <BsArrowClockwise size={18} />
+                              </div>
+                            </div>
+                          )}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="dropdown dropdown-end">
+                  <label
+                    tabIndex={0}
+                    className="btn btn-link no-underline hover:no-underline text-base-content btn-circle capitalize"
+                  >
+                    <div className="flex justify-between items-center gap-2">
+                      <div className="p-1 rounded-md border border-1 border-base-content/50">
+                        <BsVectorPen size={10} />
+                      </div>
+
+                      <div className="prose-sm text-xs font-bold w-32 text-left">
+                        long stories
+                      </div>
+                    </div>
+                  </label>
+                  <div
+                    tabIndex={0}
+                    className=" z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
+                  >
+                    <div className="h-64 overflow-y-auto whitespace-normal">
+                      <ul className="menu">
+                        <li>
+                          <Link
+                            href="/post/new"
+                            className="btn btn-neutral grid place-content-center "
+                          >
+                            <BsPlusLg />
+                            <p className="capitalize text-xs">
+                              Create New Story
+                            </p>
+                          </Link>
+                        </li>
+                        {posts.map((post) => (
+                          <li
+                            key={post._id}
+                            className="flex justify-between flex-row"
+                          >
+                            <div className="flex-1 overflow-hidden items-center">
+                              <BsFillFileTextFill />
+                              <Link
+                                href={`/post/${post._id}/editor`}
+                                className="truncate prose-sm text-xs"
+                              >
+                                {post.title
+                                  ? removeHtmlTagsAndQuotation(post.title)
+                                  : post.topic}
+                              </Link>
+                            </div>
+                          </li>
+                        ))}
+                        <li>
+                          {!noMorePosts && (
+                            <div
+                              onClick={() => {
+                                getPosts({
+                                  lastPostDate: posts[posts.length - 1].create,
+                                });
+                              }}
+                              className="cursor-pointer capitalize grid place-content-center"
+                            >
+                              <div className="prose-sm ">
+                                <BsArrowClockwise size={18} />
+                              </div>
+                            </div>
+                          )}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="dropdown dropdown-end">
+                  <label
+                    tabIndex={0}
+                    className="btn btn-link no-underline hover:no-underline text-base-content btn-circle capitalize"
+                  >
+                    <div className="flex justify-between items-center gap-2">
+                      <div className="p-1 rounded-md border border-1 border-base-content/50">
+                        <BsFillPenFill size={10} />
+                      </div>
+                      <div className="prose-sm text-xs font-bold w-32 text-left">
+                        short stories
+                      </div>
+                    </div>
+                  </label>
+                  <div
+                    tabIndex={0}
+                    className=" z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
+                  >
+                    <div className="h-64 overflow-y-auto whitespace-normal">
+                      <ul className="menu">
+                        <li>
+                          <Link
+                            href="/post/new"
+                            className="btn btn-neutral grid place-content-center "
+                          >
+                            <BsPlusLg />
+                            <p className="capitalize text-xs">
+                              Create New Short Story
                             </p>
                           </Link>
                         </li>
@@ -286,8 +501,192 @@ export const AppLayout = ({
                 max="50"
               ></progress>
             </div>
+            <ul className="menu menu-xs rounded-md max-w-xs w-full">
+              <li>
+                <details>
+                  <summary className="text-xs prose-sm">
+                    <div className="p-1 rounded-md border border-1 border-base-content/50">
+                      <BsFillFileTextFill size={10} />
+                    </div>
+                    Blog Posts
+                  </summary>
+                  <ul>
+                    {posts.map((post) => (
+                      <li
+                        key={post._id}
+                        className="flex justify-between flex-row"
+                      >
+                        <div className="flex-1 overflow-hidden items-center">
+                          <BsFillFileTextFill />
+                          <Link
+                            href={`/post/${post._id}/editor`}
+                            className="truncate prose-sm text-xs"
+                          >
+                            {post.title
+                              ? removeHtmlTagsAndQuotation(post.title)
+                              : post.topic}
+                          </Link>
+                        </div>
+                      </li>
+                    ))}
+                    {!noMorePosts && (
+                      <div
+                        onClick={() => {
+                          getPosts({
+                            lastPostDate: posts[posts.length - 1].create,
+                          });
+                        }}
+                        className="cursor-pointer mt-10 capitalize grid place-content-center"
+                      >
+                        <div className="prose-sm ">
+                          <BsArrowClockwise size={18} />
+                        </div>
+                      </div>
+                    )}
+                  </ul>
+                </details>
+              </li>
+            </ul>
+            <ul className="menu menu-xs rounded-md max-w-xs w-full">
+              <li>
+                <details>
+                  <summary className="text-xs prose-sm">
+                    <div className="p-1 rounded-md border border-1 border-base-content/50">
+                      <BsFillCameraReelsFill size={10} />
+                    </div>
+                    Movie Scripts
+                  </summary>
+                  <ul>
+                    {posts.map((post) => (
+                      <li
+                        key={post._id}
+                        className="flex justify-between flex-row"
+                      >
+                        <div className="flex-1 overflow-hidden items-center">
+                          <BsFillCameraReelsFill />
+                          <Link
+                            href={`/post/${post._id}/editor`}
+                            className="truncate prose-sm text-xs"
+                          >
+                            {post.title
+                              ? removeHtmlTagsAndQuotation(post.title)
+                              : post.topic}
+                          </Link>
+                        </div>
+                      </li>
+                    ))}
+                    {!noMorePosts && (
+                      <div
+                        onClick={() => {
+                          getPosts({
+                            lastPostDate: posts[posts.length - 1].create,
+                          });
+                        }}
+                        className="cursor-pointer mt-10 capitalize grid place-content-center"
+                      >
+                        <div className="prose-sm ">
+                          <BsArrowClockwise size={18} />
+                        </div>
+                      </div>
+                    )}
+                  </ul>
+                </details>
+              </li>
+            </ul>
+            <ul className="menu menu-xs rounded-md max-w-xs w-full">
+              <li>
+                <details>
+                  <summary className="text-xs prose-sm">
+                    <div className="p-1 rounded-md border border-1 border-base-content/50">
+                      <BsVectorPen size={10} />
+                    </div>
+                    Long Stories
+                  </summary>
+                  <ul>
+                    {posts.map((post) => (
+                      <li
+                        key={post._id}
+                        className="flex justify-between flex-row"
+                      >
+                        <div className="flex-1 overflow-hidden items-center">
+                          <BsFillFileTextFill />
+                          <Link
+                            href={`/post/${post._id}/editor`}
+                            className="truncate prose-sm text-xs"
+                          >
+                            {post.title
+                              ? removeHtmlTagsAndQuotation(post.title)
+                              : post.topic}
+                          </Link>
+                        </div>
+                      </li>
+                    ))}
+                    {!noMorePosts && (
+                      <div
+                        onClick={() => {
+                          getPosts({
+                            lastPostDate: posts[posts.length - 1].create,
+                          });
+                        }}
+                        className="cursor-pointer mt-10 capitalize grid place-content-center"
+                      >
+                        <div className="prose-sm ">
+                          <BsArrowClockwise size={18} />
+                        </div>
+                      </div>
+                    )}
+                  </ul>
+                </details>
+              </li>
+            </ul>
+            <ul className="menu menu-xs rounded-md max-w-xs w-full">
+              <li>
+                <details>
+                  <summary className="text-xs prose-sm">
+                    <div className="p-1 rounded-md border border-1 border-base-content/50">
+                      <BsFillPenFill size={10} />
+                    </div>
+                    Short Stories
+                  </summary>
+                  <ul>
+                    {posts.map((post) => (
+                      <li
+                        key={post._id}
+                        className="flex justify-between flex-row"
+                      >
+                        <div className="flex-1 overflow-hidden items-center">
+                          <BsFillFileTextFill />
+                          <Link
+                            href={`/post/${post._id}/editor`}
+                            className="truncate prose-sm text-xs"
+                          >
+                            {post.title
+                              ? removeHtmlTagsAndQuotation(post.title)
+                              : post.topic}
+                          </Link>
+                        </div>
+                      </li>
+                    ))}
+                    {!noMorePosts && (
+                      <div
+                        onClick={() => {
+                          getPosts({
+                            lastPostDate: posts[posts.length - 1].create,
+                          });
+                        }}
+                        className="cursor-pointer mt-10 capitalize grid place-content-center"
+                      >
+                        <div className="prose-sm ">
+                          <BsArrowClockwise size={18} />
+                        </div>
+                      </div>
+                    )}
+                  </ul>
+                </details>
+              </li>
+            </ul>
 
-            {posts.map((post) => (
+            {/* {posts.map((post) => (
               <li key={post._id} className="flex justify-between flex-row">
                 <div className="flex-1 overflow-hidden items-center">
                   <BsFillFileTextFill />
@@ -315,7 +714,7 @@ export const AppLayout = ({
                   <BsArrowClockwise size={18} />
                 </div>
               </div>
-            )}
+            )} */}
             <li>
               <div className="divider"></div>
             </li>

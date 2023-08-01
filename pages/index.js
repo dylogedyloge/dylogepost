@@ -2,20 +2,9 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useIntl } from "react-intl";
-import Flag from "react-world-flags";
+import ReactCountryFlag from "react-country-flag";
 import { useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
-// import {
-//   faAnchor,
-//   faAppleWhole,
-//   faBabyCarriage,
-//   faChalkboard,
-//   faCode,
-//   faFile,
-//   faImage,
-//   faPencil,
-//   faToolbox,
-// } from "@fortawesome/free-solid-svg-icons";
 import {
   BsFacebook,
   BsFillMoonStarsFill,
@@ -228,9 +217,18 @@ export default function Home({ dir }) {
               } dropdown dropdown-bottom flex gap-4`}
             >
               <label tabIndex={0} className="cursor-pointer">
-                <Flag
-                  code={locale === "fa" ? "ir" : "us"}
-                  className="h-4 w-5"
+                {/* <ReactCountryFlag
+                  countryCode={locale === "fa" ? "IR" : "US"}
+                  svg
+                /> */}
+                <ReactCountryFlag
+                  countryCode={locale === "fa" ? "IR" : "US"}
+                  svg
+                  style={{
+                    width: "1rem",
+                    height: "1rem",
+                  }}
+                  title="US"
                 />
               </label>
               <ul
@@ -247,9 +245,14 @@ export default function Home({ dir }) {
                     <div className="text-xs prose-sm ">
                       {locale === "fa" ? "فارسی" : "English"}
                     </div>
-                    <Flag
-                      code={locale === "fa" ? "ir" : "us"}
-                      className="h-4 w-5 "
+                    <ReactCountryFlag
+                      countryCode={locale === "fa" ? "IR" : "US"}
+                      svg
+                      style={{
+                        width: "1rem",
+                        height: "1rem",
+                      }}
+                      title="US"
                     />
                   </Link>
                 ))}

@@ -10,9 +10,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import { TiptapEditorProps } from "./props";
 import { TiptapExtensions } from "./extensions";
 // import useLocalStorage from "../../../../lib/hooks/use-local-storage";
-import DeleteConfirmationModal from "../../../../components/DeletConfirmation/DeletConfirmation";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faDownload, faRepeat } from "@fortawesome/free-solid-svg-icons";
+import DeletConfirmation from "../../../../components/DeletConfirmation/DeletConfirmation";
 import { FileIcon, defaultStyles } from "react-file-icon";
 import { saveAs } from "file-saver";
 import PostsContext from "../../../../context/postsContext";
@@ -294,7 +292,7 @@ export default function Editor(props) {
         {/* Actions */}
 
         <div className="flex justify-between items-center mx-10 sm:mx-20">
-          <DeleteConfirmationModal onDelete={handleDeleteConfirm} />
+          <DeletConfirmation onDelete={handleDeleteConfirm} />
 
           <button className="btn  " onClick={handleSaveChanges}>
             <BsDatabaseFillCheck />
