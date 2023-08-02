@@ -19,19 +19,19 @@ const WhiteNoisePlayer = () => {
   return (
     <div>
       <button
-        className="btn btn-neutral btn-sm outline outline-1 fixed bottom-4 right-14 prose-sm text-xs"
+        className="btn btn-neutral btn-sm  fixed bottom-4 right-14 prose-sm text-xs"
         onClick={handlePlayPause}
       >
         {isPlaying ? (
-          <BsPauseFill size={24} className="prose-sm text-xs" />
+          <BsPauseFill size={14} className="prose-sm text-xs" />
         ) : (
-          <BsPlayFill size={24} className="prose-sm text-xs" />
+          <BsPlayFill size={14} className="prose-sm text-xs" />
         )}
       </button>
       {!isPlaying && (
-        <div className="fixed bottom-4 right-32 prose-sm text-xs">
+        <div className="fixed bottom-4 right-28 prose-sm text-xs">
           <select
-            className="select select-ghost outline outline-1 select-sm max-w-xs prose-sm text-sm"
+            className="select select-ghost border border-1 border-base-content/50 select-sm max-w-xs prose-sm text-xs "
             value={selectedOption}
             onChange={handleOptionChange}
           >
