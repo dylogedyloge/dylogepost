@@ -7,11 +7,17 @@ import { useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import {
   BsFacebook,
+  BsFillCameraReelsFill,
+  BsFillChatFill,
+  BsFillFileTextFill,
   BsFillMoonStarsFill,
+  BsFillPenFill,
   BsFillSunFill,
   BsTwitter,
+  BsVectorPen,
   BsYoutube,
 } from "react-icons/bs";
+import { FaGamepad } from "react-icons/fa";
 
 export default function Home({ dir }) {
   // Theme Change
@@ -136,39 +142,56 @@ export default function Home({ dir }) {
     id: "page.home.footer.copyright",
   });
 
-  // Features Data
-  // const featuresData = [
-  //   {
-  //     title: featuresCodingTitle,
-  //     description: featuresCodingDescription,
-  //     icon: faCode,
-  //   },
-  //   {
-  //     title: featuresWritingTitle,
-  //     description: featuresWritingDescription,
-  //     icon: faPencil,
-  //   },
-  //   {
-  //     title: featuresImagesTitle,
-  //     description: featuresImagesDescription,
-  //     icon: faImage,
-  //   },
-  //   {
-  //     title: featuresLearningTitle,
-  //     description: featuresLearningDescription,
-  //     icon: faChalkboard,
-  //   },
-  //   {
-  //     title: featuresFilesTitle,
-  //     description: featuresFilesDescription,
-  //     icon: faFile,
-  //   },
-  //   {
-  //     title: featuresOthersTitle,
-  //     description: featuresOthersDescription,
-  //     icon: faToolbox,
-  //   },
-  // ];
+  //   Options Data
+  const optionsData = [
+    {
+      title: "Blog Post",
+      description:
+        "Create SEO-friendly blog posts with AI, edit in-app, and download instantly.",
+      icon: <BsFillFileTextFill />,
+      buttonText: "Creat New Blog Post",
+      link: "post/new",
+    },
+    {
+      title: "Movie Script",
+      description:
+        "AI-powered movie scriptwriting: Create, edit, and download your film script effortlessly.",
+      icon: <BsFillCameraReelsFill />,
+      buttonText: "create new Movie Script",
+      link: "movieScript/new",
+    },
+    {
+      title: "Long Story",
+      description:
+        "Experience effortless storytelling with AI: Write, edit, and download your masterpiece.",
+      icon: <BsVectorPen />,
+      buttonText: "Create New Long Story",
+      link: "longStory/new",
+    },
+    {
+      title: "Short Story",
+      description:
+        "AI-powered short story writing: Spark your creativity effortlessly.",
+      icon: <BsFillPenFill />,
+      buttonText: "Creat New Short Story",
+      link: "shortStory/new",
+    },
+    {
+      title: "Game Script",
+      description:
+        "Craft immersive game scenarios effortlessly with AI assistance.",
+      icon: <FaGamepad />,
+      buttonText: "Creat New Game Script",
+      link: "gameScript/new",
+    },
+    {
+      title: "Conversation",
+      description: "Chat with AI for expert writing guidance at every step.",
+      icon: <BsFillChatFill />,
+      buttonText: "Start Conversation",
+      link: "conversation/new",
+    },
+  ];
   // Testimonials Data
   // const testimonialsData = [
   //   {
@@ -275,38 +298,40 @@ export default function Home({ dir }) {
             <h1 className="text-8xl font-bold ">{logo}</h1>
             <div className="py-6 prose-sm">{heroDescription}</div>
 
-            <Link href="/post/new" className="btn btn-neutral capitalize">
+            <Link href="/options" className="btn btn-neutral capitalize">
               {getStartedButton}
             </Link>
           </div>
         </div>
       </div>
       {/* Features */}
-      {/* <div className="grid place-items-center w-full bg-base-200">
+      <div className="grid place-items-center w-full ">
         <div className="max-w-5xl py-24 content-center justify-center">
           <h1 className="text-4xl  text-center font-bold">
             {ourservicesTitle}
           </h1>
           <div className="grid  md:grid-cols-3 grid-cols-1 gap-8 px-6">
-            {featuresData.map((i, k) => {
+            {optionsData.map((i, k) => {
               return (
                 <div
                   key={k}
-                  className="card w-full bg-base-100 border border-1 hover:shadow-2xl cursor-pointer"
+                  className="card mx-2 bg-base-200 hover:bg-base-300  hover:shadow-2xl hover:shadow-slate-50 hover:animate-pulse cursor-pointer"
                 >
-                  <div className="card-body mt-4 items-center text-center">
-                    <h2 className="card-title flex justify-between items-center">
-                      <FontAwesomeIcon icon={i.icon} className="prose" />
-                      <div className="prose">{i.title}</div>
-                    </h2>
-                    <div className="prose text-sm">{i.description}</div>
-                  </div>
+                  <Link href={i.link}>
+                    <div className="card-body  items-center text-center">
+                      <h2 className="card-title flex justify-between items-center">
+                        <figure>{i.icon}</figure>
+                        <div className="prose">{i.title}</div>
+                      </h2>
+                      <div className="prose text-sm">{i.description}</div>
+                    </div>
+                  </Link>
                 </div>
               );
             })}
           </div>
         </div>
-      </div> */}
+      </div>
       {/* Tetimonilas */}
       {/* <div className="grid place-items-center w-full bg-base-100">
         <div className="max-w-5xl content-center justify-center">

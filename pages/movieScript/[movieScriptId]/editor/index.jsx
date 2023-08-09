@@ -10,31 +10,60 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import { TiptapEditorProps } from "./props";
 import { TiptapExtensions } from "./extensions";
 // import useLocalStorage from "../../../../lib/hooks/use-local-storage";
-import DeletConfirmation from "../../../../components/DeletConfirmation/DeletConfirmation";
+import DeleteConfirmationModal from "../../../../components/DeletConfirmation/DeletConfirmation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FileIcon, defaultStyles } from "react-file-icon";
 import { saveAs } from "file-saver";
 import PostsContext from "../../../../context/postsContext";
-// import { useDebouncedCallback } from "use-debounce";
+import { useDebouncedCallback } from "use-debounce";
 import { useCompletion } from "ai/react";
 import { toast } from "sonner";
 import va from "@vercel/analytics";
 import { EditorBubbleMenu } from "./components";
-import {
-  BsDatabaseFillCheck,
-  BsDownload,
-  BsFillCheckSquareFill,
-  BsRepeat,
-} from "react-icons/bs";
+import { BsFillCheckSquareFill, BsFillSquareFill } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { BiSolidErrorCircle } from "react-icons/bi";
 
 export default function Editor(props) {
+  const [htmlObject, setHtmlObject] = useState(null);
   // const [content, setContent] = useLocalStorage("content", null);
   const [content, setContent] = useState("");
   console.log(props.postContent);
   useEffect(() => {
     setContent(props.postContent);
   }, [props.postContent]);
+  // useEffect(() => {
+  //   const fetchHtmlObject = async () => {
+  //     try {
+  //       const html = props.postContent;
+  //       const response = await fetch("/api/htmlToObject", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({ html }),
+  //       });
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch HTML object");
+  //       }
+  //       const data = await response.json();
+
+  //       setHtmlObject(data.htmlObject);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //     // console.log(props.postContent);
+  //   };
+
+  //   fetchHtmlObject();
+  // }, [props.postContent]);
+
+  // useEffect(() => {
+  //   if (htmlObject !== null) {
+  //     setContent(htmlObject);
+  //   }
+  // }, [htmlObject]);
 
   // Delete
   const router = useRouter();
@@ -105,6 +134,22 @@ export default function Editor(props) {
   // Save Changes
   const handleSaveChanges = async () => {
     try {
+      // const response = await fetch(`/api/getPostById`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     postId: props.id,
+      //   }),
+      // });
+      // const data = await response.json();
+      // const postContent = data.content;
+
+      // const editedContent = postContent.replace(
+      //   node.children[0].data,
+      //   currentText
+      // );
       const editedContent = editor.getHTML();
       console.log(editedContent);
       const editResponse = await fetch(`/api/editPost`, {
@@ -140,15 +185,15 @@ export default function Editor(props) {
     }
   };
 
-  // const debouncedUpdates = useDebouncedCallback(async ({ editor }) => {
-  //   const json = editor.getJSON();
-  //   setSaveStatus("Saving...");
-  //   setContent(json);
-  //   // Simulate a delay in saving.
-  //   setTimeout(() => {
-  //     setSaveStatus("Saved");
-  //   }, 500);
-  // }, 750);
+  const debouncedUpdates = useDebouncedCallback(async ({ editor }) => {
+    const json = editor.getJSON();
+    setSaveStatus("Saving...");
+    setContent(json);
+    // Simulate a delay in saving.
+    setTimeout(() => {
+      setSaveStatus("Saved");
+    }, 500);
+  }, 750);
 
   const editor = useEditor({
     extensions: TiptapExtensions,
@@ -170,13 +215,12 @@ export default function Editor(props) {
         complete(e.editor.getText());
         // complete(e.editor.storage.markdown.getMarkdown());
         va.track("Autocomplete Shortcut Used");
+      } else {
+        debouncedUpdates(e);
       }
-      // else {
-      //   debouncedUpdates(e);
-      // }
     },
     content,
-    // autofocus: "end",
+    autofocus: "end",
   });
 
   const { complete, completion, isLoading, stop } = useCompletion({
@@ -262,60 +306,60 @@ export default function Editor(props) {
   ]);
 
   return (
-    <div className="overflow-auto min-h-screen min-w-screen">
-      <div className="mb-20">
+    <div className="overflow-auto min-h-screen">
+      <div className="">
         <div
           onClick={() => {
             editor?.chain().focus().run();
           }}
-          className="min-h-screen min-w-screen sm:mx-10"
+          className="card min-h-[500px] p-6 sm:mb-[calc(20vh)] "
         >
-          <div className="card mx-10 sm:mx-32 shadow-2xl p-10 glass rounded-md">
-            <div className=" text-2xl font-bold mt-4 mb-6 prose-sm ">
+          <div className="card p-6  ml-16">
+            <div className="card-title text-2xl font-bold mt-4 mb-6 prose ">
               {props.title}
             </div>
-            <div className="mb-10 text-justify w-full prose-sm">
+            <div className="mb-10 text-justify prose w-full">
               {props.metaDescription}
             </div>
-            <div className="font-bold prose-sm">Keywords</div>
+            <div className="font-bold prose">Keywords</div>
             <div>
               {props.keywords.split(",").map((keyword, i) => (
-                <div key={i} className="prose-sm">
+                <div key={i} className="prose">
                   {keyword}
                 </div>
               ))}
             </div>
           </div>
-          <div className="divider"></div>
           {editor && <EditorBubbleMenu editor={editor} />}
-          <EditorContent editor={editor} className="p-10 prose-sm w-full" />
+          <EditorContent editor={editor} className="p-10 prose w-full ml-12" />
+          <button
+            className="btn btn-block capitalize "
+            onClick={handleSaveChanges}
+          >
+            Save changes
+          </button>
         </div>
         {/* Actions */}
 
-        <div className="flex justify-between items-center mx-10 sm:mx-20">
-          <DeletConfirmation onDelete={handleDeleteConfirm} />
-
-          <button className="btn  " onClick={handleSaveChanges}>
-            <BsDatabaseFillCheck />
-            <div className="hidden sm:block capitalize prose-sm text-xs">
-              Save Changes
-            </div>
-          </button>
-
-          <button className="btn">
-            <BsRepeat />
-            <div className="hidden sm:block capitalize prose-sm text-xs">
-              Regenerate
-            </div>
-          </button>
-
+        <div className="p-10 flex justify-between">
+          <DeleteConfirmationModal onDelete={handleDeleteConfirm} />
+          <div
+            className="tooltip tooltip-left capitalize"
+            data-tip="regenerate"
+          >
+            <button className="btn ">
+              <FontAwesomeIcon icon={faRepeat} />
+            </button>
+          </div>
           <div className="dropdown  dropdown-top dropdown-end">
-            <label tabIndex={0} className="btn m-1 ">
-              <BsDownload />
-              <div className="hidden sm:block capitalize prose-sm text-xs">
-                Download
-              </div>
-            </label>
+            <div
+              className="tooltip tooltip-left capitalize"
+              data-tip="download"
+            >
+              <label tabIndex={0} className="btn m-1">
+                <FontAwesomeIcon icon={faDownload} />
+              </label>
+            </div>
 
             <ul
               tabIndex={0}

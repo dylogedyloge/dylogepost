@@ -10,51 +10,50 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import { TiptapEditorProps } from "./props";
 import { TiptapExtensions } from "./extensions";
 // import useLocalStorage from "../../../../lib/hooks/use-local-storage";
-import DeletConfirmation from "../../../../components/DeletConfirmation/DeletConfirmation";
+import DeleteConfirmationModal from "../../../../components/DeletConfirmation/DeletConfirmation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FileIcon, defaultStyles } from "react-file-icon";
 import { saveAs } from "file-saver";
-import PostsContext from "../../../../context/postsContext";
-// import { useDebouncedCallback } from "use-debounce";
+import StoryIdeasContext from "../../../../context/storyIdeasContext";
+import { useDebouncedCallback } from "use-debounce";
 import { useCompletion } from "ai/react";
 import { toast } from "sonner";
 import va from "@vercel/analytics";
 import { EditorBubbleMenu } from "./components";
-import {
-  BsDatabaseFillCheck,
-  BsDownload,
-  BsFillCheckSquareFill,
-  BsRepeat,
-} from "react-icons/bs";
+import { BsFillCheckSquareFill, BsFillSquareFill } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { BiSolidErrorCircle } from "react-icons/bi";
+// import { Button } from "tiptap";
 
 export default function Editor(props) {
+  const [htmlObject, setHtmlObject] = useState(null);
   // const [content, setContent] = useLocalStorage("content", null);
+  const router = useRouter();
   const [content, setContent] = useState("");
-  console.log(props.postContent);
+  console.log(props);
   useEffect(() => {
-    setContent(props.postContent);
-  }, [props.postContent]);
+    setContent(props.storyIdeaContent);
+  }, [props.storyIdeaContent]);
 
   // Delete
-  const router = useRouter();
-  const { deletePost } = useContext(PostsContext);
+  const { deleteStoryIdea } = useContext(StoryIdeasContext);
 
   const handleDeleteConfirm = async () => {
     try {
-      const response = await fetch(`/api/deletePost`, {
+      const response = await fetch(`/api/deleteStoryIdea`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify({ postId: props.id }),
+        body: JSON.stringify({ storyIdeaId: props.id }),
       });
       const json = await response.json();
       if (json.success) {
         console.log(props.id);
 
-        deletePost(props.id);
-        router.replace(`/post/new`);
+        deleteStoryIdea(props.id);
+        router.replace(`/storyIdea/new`);
       }
     } catch (e) {}
   };
@@ -81,7 +80,7 @@ export default function Editor(props) {
         const mdxContent = `---
   title: page
   ---
-  
+
   ${downladableContent}`;
         const mdxBlob = new Blob([mdxContent], {
           type: "text/markdown;charset=utf-8",
@@ -107,14 +106,14 @@ export default function Editor(props) {
     try {
       const editedContent = editor.getHTML();
       console.log(editedContent);
-      const editResponse = await fetch(`/api/editPost`, {
+      const editResponse = await fetch(`/api/editStoryIdea`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          postId: props.id,
-          postContent: editedContent,
+          storyIdeaId: props.id,
+          storyIdeaContent: editedContent,
         }),
       });
       const editJson = await editResponse.json();
@@ -140,15 +139,15 @@ export default function Editor(props) {
     }
   };
 
-  // const debouncedUpdates = useDebouncedCallback(async ({ editor }) => {
-  //   const json = editor.getJSON();
-  //   setSaveStatus("Saving...");
-  //   setContent(json);
-  //   // Simulate a delay in saving.
-  //   setTimeout(() => {
-  //     setSaveStatus("Saved");
-  //   }, 500);
-  // }, 750);
+  const debouncedUpdates = useDebouncedCallback(async ({ editor }) => {
+    const json = editor.getJSON();
+    setSaveStatus("Saving...");
+    setContent(json);
+    // Simulate a delay in saving.
+    setTimeout(() => {
+      setSaveStatus("Saved");
+    }, 500);
+  }, 750);
 
   const editor = useEditor({
     extensions: TiptapExtensions,
@@ -170,13 +169,12 @@ export default function Editor(props) {
         complete(e.editor.getText());
         // complete(e.editor.storage.markdown.getMarkdown());
         va.track("Autocomplete Shortcut Used");
+      } else {
+        debouncedUpdates(e);
       }
-      // else {
-      //   debouncedUpdates(e);
-      // }
     },
     content,
-    // autofocus: "end",
+    autofocus: "end",
   });
 
   const { complete, completion, isLoading, stop } = useCompletion({
@@ -260,62 +258,99 @@ export default function Editor(props) {
     content,
     // , hydrated
   ]);
+  const [hoveredElements, setHoveredElements] = useState([]);
+  const handleHover = (event) => {
+    const element = event.target;
+    setHoveredElements((prevHoveredElements) => {
+      if (!prevHoveredElements.includes(element)) {
+        return [...prevHoveredElements, element];
+      }
+      return prevHoveredElements;
+    });
+  };
+
+  const handleClickButton = (hoveredElement) => {
+    console.log(hoveredElement.textContent);
+    setHoveredElements((prevHoveredElements) =>
+      prevHoveredElements.filter((element) => element !== hoveredElement)
+    );
+  };
+  const [style, setStyle] = useState({ display: "none" });
 
   return (
-    <div className="overflow-auto min-h-screen min-w-screen">
-      <div className="mb-20">
+    <div className="overflow-auto min-h-screen">
+      <div className="">
         <div
           onClick={() => {
             editor?.chain().focus().run();
           }}
-          className="min-h-screen min-w-screen sm:mx-10"
+          className="card min-h-[500px] p-6 sm:mb-[calc(20vh)] "
         >
-          <div className="card mx-10 sm:mx-32 shadow-2xl p-10 glass rounded-md">
-            <div className=" text-2xl font-bold mt-4 mb-6 prose-sm ">
-              {props.title}
-            </div>
-            <div className="mb-10 text-justify w-full prose-sm">
-              {props.metaDescription}
-            </div>
-            <div className="font-bold prose-sm">Keywords</div>
+          <div className="card p-6  ml-16">
+            <div className="font-bold prose">genre</div>
+            <div className=" prose ">{props.genre}</div>
+            <div className="font-bold prose">characters</div>
             <div>
-              {props.keywords.split(",").map((keyword, i) => (
-                <div key={i} className="prose-sm">
-                  {keyword}
+              {props.characters.map((character, i) => (
+                <div key={i} className="prose ">
+                  {character.name}, {character.age} years old,{" "}
+                  {character.description}
                 </div>
               ))}
             </div>
           </div>
-          <div className="divider"></div>
           {editor && <EditorBubbleMenu editor={editor} />}
-          <EditorContent editor={editor} className="p-10 prose-sm w-full" />
+          {/* {editor && (
+            <button className="btn btn-neutral capitalize ">
+              list of scenes
+            </button>
+          )} */}
+          <EditorContent
+            editor={editor}
+            className="p-10 prose w-full ml-12"
+            onMouseEnter={handleHover}
+            onMouseLeave={() => setHoveredElements([])}
+          />
+          {hoveredElements.map((element, index) => (
+            <button
+              key={index}
+              style={{
+                position: "absolute",
+                left: `${element.getBoundingClientRect().left - 50}px`,
+                top: `${element.getBoundingClientRect().top}px`,
+              }}
+              onClick={() => handleClickButton(element)}
+            >
+              Click
+            </button>
+          ))}
+          <button
+            className="btn btn-block capitalize "
+            onClick={handleSaveChanges}
+          >
+            Save changes
+          </button>
         </div>
-        {/* Actions */}
 
-        <div className="flex justify-between items-center mx-10 sm:mx-20">
-          <DeletConfirmation onDelete={handleDeleteConfirm} />
-
-          <button className="btn  " onClick={handleSaveChanges}>
-            <BsDatabaseFillCheck />
-            <div className="hidden sm:block capitalize prose-sm text-xs">
-              Save Changes
-            </div>
-          </button>
-
-          <button className="btn">
-            <BsRepeat />
-            <div className="hidden sm:block capitalize prose-sm text-xs">
-              Regenerate
-            </div>
-          </button>
-
+        <div className="p-10 flex justify-between">
+          <DeleteConfirmationModal onDelete={handleDeleteConfirm} />
+          <div
+            className="tooltip tooltip-left capitalize"
+            data-tip="regenerate"
+          >
+            <button className="btn ">
+              <FontAwesomeIcon icon={faRepeat} />
+            </button>
+          </div>
           <div className="dropdown  dropdown-top dropdown-end">
-            <label tabIndex={0} className="btn m-1 ">
-              <BsDownload />
-              <div className="hidden sm:block capitalize prose-sm text-xs">
-                Download
-              </div>
-            </label>
+            <div
+              className="tooltip tooltip-left capitalize"
+              data-tip="download"
+            >
+              <label tabIndex={0} className="btn m-1">
+                <FontAwesomeIcon icon={faDownload} />
+              </label>
+            </div>
 
             <ul
               tabIndex={0}
@@ -364,21 +399,22 @@ Editor.getLayout = function getLayout(page, pageProps) {
 export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps(ctx) {
     const props = await getAppProps(ctx);
+    console.log(props);
     const userSession = await getSession(ctx.req, ctx.res);
     const client = await clientPromise;
     const db = client.db("BlogStandard");
     const user = await db.collection("users").findOne({
       auth0Id: userSession.user.sub,
     });
-    const post = await db.collection("posts").findOne({
-      _id: new ObjectId(ctx.params.postId),
+    const storyIdea = await db.collection("storyIdeas").findOne({
+      _id: new ObjectId(ctx.params.storyIdeaId),
       userId: user._id,
     });
 
-    if (!post) {
+    if (!storyIdea) {
       return {
         redirect: {
-          destination: "/post/new",
+          destination: "/storyIdea/new",
           permanent: false,
         },
       };
@@ -386,12 +422,11 @@ export const getServerSideProps = withPageAuthRequired({
 
     return {
       props: {
-        id: ctx.params.postId,
-        postContent: post.postContent,
-        title: post.title,
-        metaDescription: post.metaDescription,
-        keywords: post.keywords,
-        postCreated: post.create.toString(),
+        id: ctx.params.storyIdeaId,
+        storyIdeaContent: storyIdea.storyIdeaContent,
+        genre: storyIdea.genre,
+        characters: storyIdea.characters,
+        storyIdeaCreated: storyIdea.create.toString(),
         ...props,
       },
     };

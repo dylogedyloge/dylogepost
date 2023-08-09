@@ -21,8 +21,6 @@ import {
   BsFillCameraReelsFill,
   BsVectorPen,
   BsFillPenFill,
-  BsChevronRight,
-  BsChevronDown,
 } from "react-icons/bs";
 import WhiteNoisePlayer from "../Player/WhiteNoisePlayer";
 import { RxAvatar } from "react-icons/rx";
@@ -126,9 +124,6 @@ export const AppLayout = ({
                             className="btn btn-neutral grid place-content-center "
                           >
                             <BsPlusLg />
-                            <p className="capitalize text-xs prose-sm">
-                              Create New post
-                            </p>
                           </Link>
                         </li>
                         {posts.map((post) => (
@@ -195,9 +190,6 @@ export const AppLayout = ({
                             className="btn btn-neutral grid place-content-center "
                           >
                             <BsPlusLg />
-                            <p className="capitalize text-xs prose-sm">
-                              Create New Movie Script
-                            </p>
                           </Link>
                         </li>
                         {posts.map((post) => (
@@ -206,7 +198,7 @@ export const AppLayout = ({
                             className="flex justify-between flex-row"
                           >
                             <div className="flex-1 overflow-hidden items-center">
-                              <BsFillFileTextFill />
+                              <BsFillCameraReelsFill />
                               <Link
                                 href={`/post/${post._id}/editor`}
                                 className="truncate prose-sm text-xs"
@@ -265,9 +257,6 @@ export const AppLayout = ({
                             className="btn btn-neutral grid place-content-center "
                           >
                             <BsPlusLg />
-                            <p className="capitalize text-xs prose-sm">
-                              Create New Long Story
-                            </p>
                           </Link>
                         </li>
                         {posts.map((post) => (
@@ -276,7 +265,7 @@ export const AppLayout = ({
                             className="flex justify-between flex-row"
                           >
                             <div className="flex-1 overflow-hidden items-center">
-                              <BsFillFileTextFill />
+                              <BsVectorPen />
                               <Link
                                 href={`/post/${post._id}/editor`}
                                 className="truncate prose-sm text-xs"
@@ -334,9 +323,6 @@ export const AppLayout = ({
                             className="btn btn-neutral grid place-content-center "
                           >
                             <BsPlusLg />
-                            <p className="capitalize text-xs prose-sm">
-                              Create New Short Story
-                            </p>
                           </Link>
                         </li>
                         {posts.map((post) => (
@@ -345,7 +331,7 @@ export const AppLayout = ({
                             className="flex justify-between flex-row"
                           >
                             <div className="flex-1 overflow-hidden items-center">
-                              <BsFillFileTextFill />
+                              <BsFillPenFill />
                               <Link
                                 href={`/post/${post._id}/editor`}
                                 className="truncate prose-sm text-xs"
@@ -612,7 +598,7 @@ export const AppLayout = ({
                           className="flex justify-between flex-row"
                         >
                           <div className="flex-1 overflow-hidden items-center">
-                            <BsFillFileTextFill />
+                            <BsVectorPen />
                             <Link
                               href={`/post/${post._id}/editor`}
                               className="truncate prose-sm text-xs"
@@ -658,7 +644,7 @@ export const AppLayout = ({
                           className="flex justify-between flex-row"
                         >
                           <div className="flex-1 overflow-hidden items-center">
-                            <BsFillFileTextFill />
+                            <BsFillPenFill />
                             <Link
                               href={`/post/${post._id}/editor`}
                               className="truncate prose-sm text-xs"

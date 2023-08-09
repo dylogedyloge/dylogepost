@@ -27,7 +27,6 @@ import va from "@vercel/analytics";
 // import Magic from "@/ui/icons/magic";
 import { handleImageUpload } from "../../../../../lib/editor";
 import { BiMessageRoundedDetail } from "react-icons/bi";
-import Image from "next/image";
 
 interface CommandItemProps {
   title: string;
@@ -76,23 +75,23 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       title: "Continue writing",
       description: "Use AI to expand your thoughts.",
       searchTerms: ["gpt"],
-      icon: <Image src="/logo4.svg" alt="dyloge" width={20} height={20} />,
+      icon: <VscDebugContinueSmall size={18} />,
       //  <Magic className="w-7 text-black" />
     },
-    // {
-    //   title: "Send Feedback",
-    //   description: "Let us know how we can improve.",
-    //   icon: <BiMessageRoundedDetail />,
-    //   command: ({ editor, range }: CommandProps) => {
-    //     editor.chain().focus().deleteRange(range).run();
-    //     window.open("/feedback", "_blank");
-    //   },
-    // },
+    {
+      title: "Send Feedback",
+      description: "Let us know how we can improve.",
+      icon: <BiMessageRoundedDetail size={18} />,
+      command: ({ editor, range }: CommandProps) => {
+        editor.chain().focus().deleteRange(range).run();
+        window.open("/feedback", "_blank");
+      },
+    },
     {
       title: "Text",
       description: "Just start typing with plain text.",
       searchTerms: ["p", "paragraph"],
-      icon: <BsTextParagraph />,
+      icon: <BsTextParagraph size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor
           .chain()
@@ -106,7 +105,7 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       title: "To-do List",
       description: "Track tasks with a to-do list.",
       searchTerms: ["todo", "task", "list", "check", "checkbox"],
-      icon: <BsCheck2Square />,
+      icon: <BsCheck2Square size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor.chain().focus().deleteRange(range).toggleTaskList().run();
       },
@@ -115,7 +114,7 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       title: "Heading 1",
       description: "Big section heading.",
       searchTerms: ["title", "big", "large"],
-      icon: <LuHeading1 />,
+      icon: <LuHeading1 size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor
           .chain()
@@ -129,7 +128,7 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       title: "Heading 2",
       description: "Medium section heading.",
       searchTerms: ["subtitle", "medium"],
-      icon: <LuHeading2 />,
+      icon: <LuHeading2 size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor
           .chain()
@@ -143,7 +142,7 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       title: "Heading 3",
       description: "Small section heading.",
       searchTerms: ["subtitle", "small"],
-      icon: <LuHeading3 />,
+      icon: <LuHeading3 size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor
           .chain()
@@ -157,7 +156,7 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       title: "Bullet List",
       description: "Create a simple bullet list.",
       searchTerms: ["unordered", "point"],
-      icon: <AiOutlineUnorderedList />,
+      icon: <AiOutlineUnorderedList size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor.chain().focus().deleteRange(range).toggleBulletList().run();
       },
@@ -166,7 +165,7 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       title: "Numbered List",
       description: "Create a list with numbering.",
       searchTerms: ["ordered"],
-      icon: <AiOutlineOrderedList />,
+      icon: <AiOutlineOrderedList size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor.chain().focus().deleteRange(range).toggleOrderedList().run();
       },
@@ -175,7 +174,7 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       title: "Quote",
       description: "Capture a quote.",
       searchTerms: ["blockquote"],
-      icon: <BsQuote />,
+      icon: <BsQuote size={18} />,
       command: ({ editor, range }: CommandProps) =>
         editor
           .chain()
@@ -189,15 +188,15 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       title: "Code",
       description: "Capture a code snippet.",
       searchTerms: ["codeblock"],
-      icon: <BsCodeSlash />,
+      icon: <BsCodeSlash size={18} />,
       command: ({ editor, range }: CommandProps) =>
         editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
     },
     {
       title: "Image",
-      description: "Upload an image from your device.",
+      description: "Upload an image from your computer.",
       searchTerms: ["photo", "picture", "media"],
-      icon: <BsCardImage />,
+      icon: <BsCardImage size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor.chain().focus().deleteRange(range).run();
         // upload image
@@ -340,12 +339,12 @@ const CommandList = ({
     <div
       id="slash-command"
       ref={commandListContainer}
-      className="z-50 block max-h-[330px] overflow-y-auto menu-sm bg-base-200  "
+      className="z-50 block max-h-[330px] overflow-y-auto menu bg-base-200 rounded-box "
     >
       {items.map((item: CommandItemProps, index: number) => {
         return (
           <button
-            className={`flex w-full  items-center my-1 space-x-2 rounded-md p-2 text-left text-sm hover:bg-base-300  prose-sm ${
+            className={`flex w-full items-center space-x-2 rounded-md p-2  text-left text-sm hover:bg-base-300 ${
               index === selectedIndex ? "bg-base-300 text-base-content" : ""
             }`}
             key={index}
@@ -360,14 +359,8 @@ const CommandList = ({
               )}
             </div>
             <div>
-              <div className="flex flex-col justify-center items-start h-10">
-                <div className="font-semibold prose-sm font-sans-en">
-                  {item.title}
-                </div>
-                <div className="text-xs text-base-content prose-sm font-sans-en">
-                  {item.description}
-                </div>
-              </div>
+              <p className="font-medium">{item.title}</p>
+              <p className="text-xs text-base-content">{item.description}</p>
             </div>
           </button>
         );

@@ -1,11 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  BsCaretRightFill,
-  BsCaretLeftFill,
   BsVectorPen,
   BsFillFileTextFill,
-  BsFillEnvelopeFill,
   BsFillCameraReelsFill,
   BsFillPenFill,
   BsFillChatFill,
@@ -74,10 +71,10 @@ const Options = () => {
           return (
             <div
               key={k}
-              className="card mx-2 bg-base-200 hover:bg-base-300  hover:shadow-2xl hover:shadow-slate-50 hover:animate-pulse cursor-pointer"
+              className="card mx-2 bg-base-200 hover:bg-base-300  hover:shadow-2xl hover:shadow-slate-50  hover:text-slate-50 cursor-pointer"
             >
-              <Link href={i.link}>
-                <div className="card-body  items-center text-center">
+              <Link href={i.link} className="">
+                <div className="card-body  items-center text-center ">
                   <h2 className="card-title flex justify-between items-center">
                     <figure>{i.icon}</figure>
                     <div className="prose">{i.title}</div>
