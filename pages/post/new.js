@@ -46,7 +46,7 @@ export default function NewPost(props) {
         <div className="min-h-screen grid place-items-center overflow-auto mx-2 ">
           <form
             onSubmit={handleSubmit}
-            className="card border border-1 bg-base-100 w-fit shadow-xl p-10 glass"
+            className="card border border-1 bg-base-100 w-fit shadow-xl p-10   "
           >
             <div className="mb-5 ">
               <label className="label grid place-content-center mb-4">

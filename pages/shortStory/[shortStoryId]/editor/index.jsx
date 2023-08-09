@@ -301,7 +301,7 @@ export default function Editor(props) {
           </div>
           {editor && <EditorBubbleMenu editor={editor} />}
           {/* {editor && (
-            <button className="btn btn-neutral capitalize ">
+            <button className="btn   capitalize ">
               list of scenes
             </button>
           )} */}

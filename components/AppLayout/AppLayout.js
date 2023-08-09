@@ -55,7 +55,7 @@ export const AppLayout = ({
   // Theme Change
   const [theme, setTheme] = useLocalStorage();
   const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    setTheme(theme === "business" ? "lofi" : "business");
   };
   useEffect(() => {
     const body = document.body;
@@ -104,7 +104,7 @@ export const AppLayout = ({
                     className="btn btn-link no-underline hover:no-underline text-base-content btn-circle capitalize"
                   >
                     <div className="flex justify-between items-center gap-2">
-                      <div className="p-1 rounded-md border border-1 border-base-content/50">
+                      <div className="p-2 rounded-sm border border-1 border-base-content/50">
                         <BsFillFileTextFill size={10} />
                       </div>
                       <div className="prose-sm text-xs font-bold w-32 text-left">
@@ -121,7 +121,7 @@ export const AppLayout = ({
                         <li>
                           <Link
                             href="/post/new"
-                            className="btn btn-neutral grid place-content-center "
+                            className="btn border-0  grid place-content-center "
                           >
                             <BsPlusLg />
                           </Link>
@@ -170,7 +170,7 @@ export const AppLayout = ({
                     className="btn btn-link no-underline hover:no-underline text-base-content btn-circle capitalize"
                   >
                     <div className="flex justify-between items-center gap-2 ">
-                      <div className="p-1 rounded-md border border-1 border-base-content/50">
+                      <div className="p-2 rounded-sm border border-1 border-base-content/50">
                         <BsFillCameraReelsFill size={10} />
                       </div>
                       <div className="prose-sm text-xs font-bold  w-32 text-left">
@@ -187,7 +187,7 @@ export const AppLayout = ({
                         <li>
                           <Link
                             href="/post/new"
-                            className="btn btn-neutral grid place-content-center "
+                            className="btn  border-0 grid place-content-center "
                           >
                             <BsPlusLg />
                           </Link>
@@ -236,7 +236,7 @@ export const AppLayout = ({
                     className="btn btn-link no-underline hover:no-underline text-base-content btn-circle capitalize"
                   >
                     <div className="flex justify-between items-center gap-2">
-                      <div className="p-1 rounded-md border border-1 border-base-content/50">
+                      <div className="p-2 rounded-sm border border-1 border-base-content/50">
                         <BsVectorPen size={10} />
                       </div>
 
@@ -254,7 +254,7 @@ export const AppLayout = ({
                         <li>
                           <Link
                             href="/post/new"
-                            className="btn btn-neutral grid place-content-center "
+                            className="btn border-0  grid place-content-center "
                           >
                             <BsPlusLg />
                           </Link>
@@ -303,7 +303,7 @@ export const AppLayout = ({
                     className="btn btn-link no-underline hover:no-underline text-base-content btn-circle capitalize"
                   >
                     <div className="flex justify-between items-center gap-2">
-                      <div className="p-1 rounded-md border border-1 border-base-content/50">
+                      <div className="p-2 rounded-sm border border-1 border-base-content/50">
                         <BsFillPenFill size={10} />
                       </div>
                       <div className="prose-sm text-xs font-bold w-32 text-left">
@@ -320,7 +320,7 @@ export const AppLayout = ({
                         <li>
                           <Link
                             href="/post/new"
-                            className="btn btn-neutral grid place-content-center "
+                            className="btn border-0 grid place-content-center "
                           >
                             <BsPlusLg />
                           </Link>
@@ -370,7 +370,7 @@ export const AppLayout = ({
                         {availableTokens}
                       </span>
                       <label tabIndex={0} className="cursor-pointer avatar">
-                        <div className="w-10 rounded-md">
+                        <div className="w-10 rounded-sm">
                           <Image
                             src={user.picture}
                             width={30}
@@ -470,7 +470,7 @@ export const AppLayout = ({
                   </div>
                 </div>
 
-                <Link href="/options" className="btn btn-neutral">
+                <Link href="/options" className="btn  ">
                   <BsPlusLg />
                 </Link>
               </div>
@@ -490,11 +490,11 @@ export const AppLayout = ({
               ></progress>
             </div>
             <div className=" flex flex-col gap-1">
-              <ul className="menu menu-xs rounded-md max-w-xs w-full bg-base-200 p-2 m-0">
+              <ul className="menu menu-xs rounded-sm max-w-xs w-full bg-base-200 p-2 m-0">
                 <li>
                   <details>
                     <summary className="text-xs prose-sm">
-                      <div className="p-1 rounded-md border border-1 border-base-content/50">
+                      <div className="p-2 rounded-sm border border-1 border-base-content/50">
                         <BsFillFileTextFill size={10} />
                       </div>
                       Blog Posts
@@ -536,11 +536,11 @@ export const AppLayout = ({
                   </details>
                 </li>
               </ul>
-              <ul className="menu menu-xs rounded-md max-w-xs w-full bg-base-200 p-2 m-0">
+              <ul className="menu menu-xs rounded-sm max-w-xs w-full bg-base-200 p-2 m-0">
                 <li>
                   <details>
                     <summary className="text-xs prose-sm">
-                      <div className="p-1 rounded-md border border-1 border-base-content/50">
+                      <div className="p-2 rounded-sm border border-1 border-base-content/50">
                         <BsFillCameraReelsFill size={10} />
                       </div>
                       Movie Scripts
@@ -582,11 +582,11 @@ export const AppLayout = ({
                   </details>
                 </li>
               </ul>
-              <ul className="menu menu-xs rounded-md max-w-xs w-full bg-base-200 p-2 m-0">
+              <ul className="menu menu-xs rounded-sm max-w-xs w-full bg-base-200 p-2 m-0">
                 <li>
                   <details>
                     <summary className="text-xs prose-sm">
-                      <div className="p-1 rounded-md border border-1 border-base-content/50">
+                      <div className="p-2 rounded-sm border border-1 border-base-content/50">
                         <BsVectorPen size={10} />
                       </div>
                       Long Stories
@@ -628,11 +628,11 @@ export const AppLayout = ({
                   </details>
                 </li>
               </ul>
-              <ul className="menu menu-xs rounded-md max-w-xs w-full bg-base-200 p-2 m-0">
+              <ul className="menu menu-xs rounded-sm max-w-xs w-full bg-base-200 p-2 m-0">
                 <li>
                   <details>
                     <summary className="text-xs prose-sm">
-                      <div className="p-1 rounded-md border border-1 border-base-content/50">
+                      <div className="p-2 rounded-sm border border-1 border-base-content/50">
                         <BsFillPenFill size={10} />
                       </div>
                       Short Stories

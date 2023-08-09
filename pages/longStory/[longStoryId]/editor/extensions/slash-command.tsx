@@ -76,7 +76,7 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       description: "Use AI to expand your thoughts.",
       searchTerms: ["gpt"],
       icon: <VscDebugContinueSmall size={18} />,
-      //  <Magic className="w-7 text-black" />
+      //  <Magic className="w-7 text-business" />
     },
     {
       title: "Send Feedback",

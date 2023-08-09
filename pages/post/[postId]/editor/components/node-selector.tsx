@@ -4,12 +4,10 @@ import {
   BsCodeSlash,
   BsQuote,
   BsTextParagraph,
+  BsCheck2,
+  BsListOl,
+  BsListUl,
 } from "react-icons/bs";
-import {
-  AiOutlineCheck,
-  AiOutlineOrderedList,
-  AiOutlineUnorderedList,
-} from "react-icons/ai";
 import { LuHeading1, LuHeading2, LuHeading3 } from "react-icons/lu";
 import { BiSolidChevronDown } from "react-icons/bi";
 import { Dispatch, FC, SetStateAction } from "react";
@@ -64,14 +62,14 @@ export const NodeSelector: FC<NodeSelectorProps> = ({
       isActive: () => editor.isActive("taskItem"),
     },
     {
-      name: "Bullet List",
-      icon: AiOutlineUnorderedList,
+      name: "Unordered List",
+      icon: BsListUl,
       command: () => editor.chain().focus().toggleBulletList().run(),
       isActive: () => editor.isActive("bulletList"),
     },
     {
-      name: "Numbered List",
-      icon: AiOutlineOrderedList,
+      name: "Ordered List",
+      icon: BsListOl,
       command: () => editor.chain().focus().toggleOrderedList().run(),
       isActive: () => editor.isActive("orderedList"),
     },
@@ -105,12 +103,14 @@ export const NodeSelector: FC<NodeSelectorProps> = ({
         className="flex h-full items-center gap-1 p-2 text-sm font-medium rounded-md hover:bg-base-300 active:bg-base-300"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span>{activeItem?.name}</span>
+        <span className="text-xs font-semibold prose-sm ">
+          {activeItem?.name}
+        </span>
         <BiSolidChevronDown className="h-4 w-4" />
       </button>
 
       {isOpen && (
-        <section className="menu bg-base-200 rounded-md fixed top-full z-[99999] mt-1 flex  flex-col overflow-hidden  p-2  animate-in fade-in slide-in-from-top-1">
+        <section className="menu bg-base-200 rounded-sm fixed top-full z-[99999] mt-1 flex  flex-col overflow-hidden  p-2  animate-in fade-in slide-in-from-top-1">
           {items.map((item, index) => (
             <button
               key={index}
@@ -118,16 +118,18 @@ export const NodeSelector: FC<NodeSelectorProps> = ({
                 item.command();
                 setIsOpen(false);
               }}
-              className="flex items-center justify-between  px-2 py-1 rounded-md hover:bg-base-300"
+              className="flex items-center justify-between  px-2 py-1 rounded-sm hover:bg-base-300"
             >
               <div className="flex items-center space-x-2 ">
-                <div className="  p-1">
-                  <item.icon className="h-3 w-3 text-base-content" />
+                <div className="p-1">
+                  <item.icon className="h-5 w-5 text-base-content" />
                 </div>
-                <span className="text-base-content">{item.name}</span>
+                <span className="text-base-content text-xs prose-sm">
+                  {item.name}
+                </span>
               </div>
               {activeItem.name === item.name && (
-                <AiOutlineCheck className="h-4 w-4" />
+                <BsCheck2 className="h-4 w-4" />
               )}
             </button>
           ))}

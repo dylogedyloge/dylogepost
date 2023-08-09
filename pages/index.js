@@ -23,7 +23,7 @@ export default function Home({ dir }) {
   // Theme Change
   const [theme, setTheme] = useLocalStorage();
   const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    setTheme(theme === "business" ? "lofi" : "business");
   };
   useEffect(() => {
     const body = document.body;
@@ -298,7 +298,7 @@ export default function Home({ dir }) {
             <h1 className="text-8xl font-bold ">{logo}</h1>
             <div className="py-6 prose-sm">{heroDescription}</div>
 
-            <Link href="/options" className="btn btn-neutral capitalize">
+            <Link href="/options" className="btn   capitalize">
               {getStartedButton}
             </Link>
           </div>

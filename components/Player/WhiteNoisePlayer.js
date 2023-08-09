@@ -19,7 +19,7 @@ const WhiteNoisePlayer = () => {
   return (
     <div>
       <button
-        className="btn btn-neutral btn-sm  fixed bottom-4 right-14 prose-sm text-xs"
+        className="btn   btn-sm  fixed bottom-4 right-14 prose-sm text-xs"
         onClick={handlePlayPause}
       >
         {isPlaying ? (
@@ -51,10 +51,10 @@ const WhiteNoisePlayer = () => {
               Beach Sunset
             </option>
             <option
-              value="https://ia902805.us.archive.org/31/items/relaxingsounds/Rain%207%20%28Lightest%29%208h%20DripsOnTrees-no%20thunder.mp3"
+              value="https://ia902805.us.archive.org/31/items/relaxingsounds/Rain%207%20%28lightest%29%208h%20DripsOnTrees-no%20thunder.mp3"
               className="text-xs prose-sm"
             >
-              Lightest Rain
+              lightest Rain
             </option>
           </select>
         </div>

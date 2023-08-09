@@ -270,7 +270,7 @@ export default function Editor(props) {
           }}
           className="min-h-screen min-w-screen sm:mx-10"
         >
-          <div className="card mx-10 sm:mx-32 shadow-2xl p-10 glass rounded-md">
+          <div className="card mx-10 sm:mx-32 shadow-2xl p-10    rounded-md">
             <div className=" text-2xl font-bold mt-4 mb-6 prose-sm ">
               {props.title}
             </div>
