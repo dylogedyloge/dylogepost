@@ -102,15 +102,15 @@ const getSuggestionItems = ({ query }: { query: string }) => {
           .run();
       },
     },
-    {
-      title: "To-do List",
-      description: "Track tasks with a to-do list.",
-      searchTerms: ["todo", "task", "list", "check", "checkbox"],
-      icon: <BsCheck2Square />,
-      command: ({ editor, range }: CommandProps) => {
-        editor.chain().focus().deleteRange(range).toggleTaskList().run();
-      },
-    },
+    // {
+    //   title: "To-do List",
+    //   description: "Track tasks with a to-do list.",
+    //   searchTerms: ["todo", "task", "list", "check", "checkbox"],
+    //   icon: <BsCheck2Square />,
+    //   command: ({ editor, range }: CommandProps) => {
+    //     editor.chain().focus().deleteRange(range).toggleTaskList().run();
+    //   },
+    // },
     {
       title: "Heading 1",
       description: "Big section heading.",

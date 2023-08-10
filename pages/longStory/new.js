@@ -157,7 +157,7 @@ export default function NewStory(props) {
         body: JSON.stringify({ genre, characters }),
       });
       const json = await response.json();
-      console.log(response);
+      // console.log(response);
 
       if (json?.storyIdeaId) {
         router.push(`/storyIdea/${json.storyIdeaId}/editor`);

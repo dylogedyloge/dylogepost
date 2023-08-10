@@ -29,7 +29,7 @@ export default function Editor(props) {
   const [htmlObject, setHtmlObject] = useState(null);
   // const [content, setContent] = useLocalStorage("content", null);
   const [content, setContent] = useState("");
-  console.log(props.postContent);
+  // console.log(props.postContent);
   useEffect(() => {
     setContent(props.postContent);
   }, [props.postContent]);
@@ -80,7 +80,7 @@ export default function Editor(props) {
       });
       const json = await response.json();
       if (json.success) {
-        console.log(props.id);
+        // console.log(props.id);
 
         deletePost(props.id);
         router.replace(`/post/new`);
@@ -96,7 +96,7 @@ export default function Editor(props) {
 
   const handleDownload = async (format) => {
     const downladableContent = editor.getHTML();
-    console.log(downladableContent);
+    // console.log(downladableContent);
 
     switch (format) {
       case "txt":
@@ -151,7 +151,7 @@ export default function Editor(props) {
       //   currentText
       // );
       const editedContent = editor.getHTML();
-      console.log(editedContent);
+      // console.log(editedContent);
       const editResponse = await fetch(`/api/editPost`, {
         method: "POST",
         headers: {

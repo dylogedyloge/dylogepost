@@ -31,7 +31,7 @@ export default function Editor(props) {
   // const [content, setContent] = useLocalStorage("content", null);
   const router = useRouter();
   const [content, setContent] = useState("");
-  console.log(props);
+  // console.log(props);
   useEffect(() => {
     setContent(props.storyIdeaContent);
   }, [props.storyIdeaContent]);
@@ -50,7 +50,7 @@ export default function Editor(props) {
       });
       const json = await response.json();
       if (json.success) {
-        console.log(props.id);
+        // console.log(props.id);
 
         deleteStoryIdea(props.id);
         router.replace(`/storyIdea/new`);
@@ -66,7 +66,7 @@ export default function Editor(props) {
 
   const handleDownload = async (format) => {
     const downladableContent = editor.getHTML();
-    console.log(downladableContent);
+    // console.log(downladableContent);
 
     switch (format) {
       case "txt":
@@ -105,7 +105,7 @@ export default function Editor(props) {
   const handleSaveChanges = async () => {
     try {
       const editedContent = editor.getHTML();
-      console.log(editedContent);
+      // console.log(editedContent);
       const editResponse = await fetch(`/api/editStoryIdea`, {
         method: "POST",
         headers: {
@@ -270,7 +270,7 @@ export default function Editor(props) {
   };
 
   const handleClickButton = (hoveredElement) => {
-    console.log(hoveredElement.textContent);
+    // console.log(hoveredElement.textContent);
     setHoveredElements((prevHoveredElements) =>
       prevHoveredElements.filter((element) => element !== hoveredElement)
     );
@@ -399,7 +399,7 @@ Editor.getLayout = function getLayout(page, pageProps) {
 export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps(ctx) {
     const props = await getAppProps(ctx);
-    console.log(props);
+    // console.log(props);
     const userSession = await getSession(ctx.req, ctx.res);
     const client = await clientPromise;
     const db = client.db("BlogStandard");

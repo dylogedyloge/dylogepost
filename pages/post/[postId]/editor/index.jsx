@@ -31,7 +31,7 @@ import { BiSolidErrorCircle } from "react-icons/bi";
 export default function Editor(props) {
   // const [content, setContent] = useLocalStorage("content", null);
   const [content, setContent] = useState("");
-  console.log(props.postContent);
+  // console.log(props.postContent);
   useEffect(() => {
     setContent(props.postContent);
   }, [props.postContent]);
@@ -51,7 +51,7 @@ export default function Editor(props) {
       });
       const json = await response.json();
       if (json.success) {
-        console.log(props.id);
+        // console.log(props.id);
 
         deletePost(props.id);
         router.replace(`/post/new`);
@@ -67,7 +67,7 @@ export default function Editor(props) {
 
   const handleDownload = async (format) => {
     const downladableContent = editor.getHTML();
-    console.log(downladableContent);
+    // console.log(downladableContent);
 
     switch (format) {
       case "txt":
@@ -106,7 +106,7 @@ export default function Editor(props) {
   const handleSaveChanges = async () => {
     try {
       const editedContent = editor.getHTML();
-      console.log(editedContent);
+      // console.log(editedContent);
       const editResponse = await fetch(`/api/editPost`, {
         method: "POST",
         headers: {
@@ -301,14 +301,6 @@ export default function Editor(props) {
               Save Changes
             </div>
           </button>
-
-          <button className="btn">
-            <BsRepeat />
-            <div className="hidden sm:block capitalize prose-sm text-xs">
-              Regenerate
-            </div>
-          </button>
-
           <div className="dropdown  dropdown-top dropdown-end">
             <label tabIndex={0} className="btn m-1 ">
               <BsDownload />
