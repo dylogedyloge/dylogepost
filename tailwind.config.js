@@ -13,6 +13,8 @@ module.exports = {
     extend: {
       fontFamily: {
         "sans-en": ["Montserrat", "sans-serif"],
+        // "sans-en": ["Courier Prime", "monospace"],
+
         "sans-fa": ["Noto Sans Arabic", "sans-serif"],
       },
     },

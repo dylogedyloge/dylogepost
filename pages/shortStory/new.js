@@ -38,7 +38,7 @@
 //     e.preventDefault();
 //     setGenerating(true);
 //     try {
-//       const response = await fetch(`/api/generateMoviescriptIdeas`, {
+//       const response = await fetch(`/api/generateShortStory`, {
 //         method: "POST",
 //         headers: {
 //           "content-type": "application/json",
