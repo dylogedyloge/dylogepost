@@ -46,40 +46,40 @@ const optionsData = [
     buttonText: "Creat New Short Story",
     link: "shortStory/new",
   },
-  {
-    title: "Game Script",
-    description:
-      "Craft immersive game scenarios effortlessly with AI assistance.",
-    icon: <FaGamepad />,
-    buttonText: "Creat New Game Script",
-    link: "gameScript/new",
-  },
-  {
-    title: "Conversation",
-    description: "Chat with AI for expert writing guidance at every step.",
-    icon: <BsFillChatFill />,
-    buttonText: "Start Conversation",
-    link: "conversation/new",
-  },
+  // {
+  //   title: "Game Script",
+  //   description:
+  //     "Craft immersive game scenarios effortlessly with AI assistance.",
+  //   icon: <FaGamepad />,
+  //   buttonText: "Creat New Game Script",
+  //   link: "gameScript/new",
+  // },
+  // {
+  //   title: "Conversation",
+  //   description: "Chat with AI for expert writing guidance at every step.",
+  //   icon: <BsFillChatFill />,
+  //   buttonText: "Start Conversation",
+  //   link: "conversation/new",
+  // },
 ];
 
 const Options = () => {
   return (
     <div className="min-h-screen grid place-items-center overflow-auto">
-      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mx-1">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2  mx-1">
         {optionsData.map((i, k) => {
           return (
             <div
               key={k}
-              className="card mx-2 bg-base-200 hover:bg-base-300  hover:shadow-2xl hover:shadow-slate-50  hover:text-slate-50 cursor-pointer"
+              className="card mx-2 bg-base-200 hover:bg-base-300  hover:shadow-2xl hover:shadow-slate-50   cursor-pointer"
             >
               <Link href={i.link} className="">
                 <div className="card-body  items-center text-center ">
-                  <h2 className="card-title flex justify-between items-center">
+                  <h2 className="card-title flex justify-between items-center ">
                     <figure>{i.icon}</figure>
-                    <div className="prose">{i.title}</div>
+                    <div className="prose-sm">{i.title}</div>
                   </h2>
-                  <div className="prose text-sm">{i.description}</div>
+                  <div className="prose-sm text-xs">{i.description}</div>
                 </div>
               </Link>
             </div>

@@ -54,7 +54,7 @@ export default function App({ Component, pageProps }) {
             locale={router.locale}
             messages={messages[router.locale]}
           >
-            <Toaster position="bottom-right" closeButton />
+            <Toaster closeButton />
             {loading && <Loading />}
             {getLayout(
               <Component {...pageProps} dir={getDirection(router.locale)} />,

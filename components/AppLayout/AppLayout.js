@@ -186,7 +186,7 @@ export const AppLayout = ({
                       <ul className="menu">
                         <li>
                           <Link
-                            href="/post/new"
+                            href="/movieScript/new"
                             className="btn  border-0 grid place-content-center "
                           >
                             <BsPlusLg />
@@ -253,7 +253,7 @@ export const AppLayout = ({
                       <ul className="menu">
                         <li>
                           <Link
-                            href="/post/new"
+                            href="/longStory/new"
                             className="btn border-0  grid place-content-center "
                           >
                             <BsPlusLg />
@@ -319,7 +319,7 @@ export const AppLayout = ({
                       <ul className="menu">
                         <li>
                           <Link
-                            href="/post/new"
+                            href="/shortStory/new"
                             className="btn border-0 grid place-content-center "
                           >
                             <BsPlusLg />

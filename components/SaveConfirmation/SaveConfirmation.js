@@ -1,8 +1,7 @@
 import { BsTrash3 } from "react-icons/bs";
 import { useState } from "react";
-import { toast } from "sonner";
 
-const DeleteConfirmationModal = ({ onDelete }) => {
+const SaveConfirmationModal = ({ onRequestClose, onSaveChanges }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => {
@@ -16,7 +15,6 @@ const DeleteConfirmationModal = ({ onDelete }) => {
   const handleDelete = () => {
     onDelete();
     closeModal();
-    toast.success("Blog post deleted");
   };
 
   return (
@@ -54,4 +52,4 @@ const DeleteConfirmationModal = ({ onDelete }) => {
   );
 };
 
-export default DeleteConfirmationModal;
+export default SaveConfirmationModal;

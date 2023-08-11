@@ -119,24 +119,10 @@ export default function Editor(props) {
       });
       const editJson = await editResponse.json();
       if (editJson.success) {
-        toast.custom(() => (
-          <div className="toast toast-end ">
-            <div className="alert  rounded-md">
-              <BsFillCheckSquareFill size={18} className="text-success" />
-              <span>Content saved successfully.</span>
-            </div>
-          </div>
-        ));
+        toast.success("Content saved successfully.");
       }
     } catch (error) {
-      toast.custom((t) => (
-        <div className="toast toast-end ">
-          <div className="alert  rounded-md">
-            <BiSolidErrorCircle size={18} className="text-error" />
-            <span>{error}</span>
-          </div>
-        </div>
-      ));
+      toast.error(error);
     }
   };
 
