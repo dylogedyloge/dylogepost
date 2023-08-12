@@ -1,5 +1,3 @@
-"use client";
-
 import { useContext, useEffect, useRef, useState } from "react";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { getAppProps } from "../../../../utils/getAppProps";
@@ -9,29 +7,20 @@ import { ObjectId } from "mongodb";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { TiptapEditorProps } from "./props";
 import { TiptapExtensions } from "./extensions";
-// import useLocalStorage from "../../../../lib/hooks/use-local-storage";
 import DeletConfirmation from "../../../../components/DeletConfirmation/DeletConfirmation";
 import { FileIcon, defaultStyles } from "react-file-icon";
 import { saveAs } from "file-saver";
 import PostsContext from "../../../../context/postsContext";
-// import { useDebouncedCallback } from "use-debounce";
 import { useCompletion } from "ai/react";
 import { toast } from "sonner";
 import va from "@vercel/analytics";
 import { EditorBubbleMenu } from "./components";
-import {
-  BsDatabaseFillCheck,
-  BsDownload,
-  BsFillCheckSquareFill,
-  BsRepeat,
-} from "react-icons/bs";
+import { BsDatabaseFillCheck, BsDownload } from "react-icons/bs";
 import { useRouter } from "next/router";
-import { BiSolidErrorCircle } from "react-icons/bi";
 
 export default function Editor(props) {
-  // const [content, setContent] = useLocalStorage("content", null);
   const [content, setContent] = useState("");
-  // console.log(props.postContent);
+
   useEffect(() => {
     setContent(props.postContent);
   }, [props.postContent]);
@@ -51,8 +40,6 @@ export default function Editor(props) {
       });
       const json = await response.json();
       if (json.success) {
-        // console.log(props.id);
-
         deletePost(props.id);
         router.replace(`/post/new`);
       }
@@ -61,14 +48,10 @@ export default function Editor(props) {
 
   const [saveStatus, setSaveStatus] = useState("Saved");
 
-  // const [hydrated, setHydrated] = useState(false);
-
   // Download
 
   const handleDownload = async (format) => {
     const downladableContent = editor.getHTML();
-    // console.log(downladableContent);
-
     switch (format) {
       case "txt":
         const plainText = downladableContent.replace(/<[^>]+>/g, "");
@@ -106,7 +89,6 @@ export default function Editor(props) {
   const handleSaveChanges = async () => {
     try {
       const editedContent = editor.getHTML();
-      // console.log(editedContent);
       const editResponse = await fetch(`/api/editPost`, {
         method: "POST",
         headers: {
@@ -126,16 +108,6 @@ export default function Editor(props) {
     }
   };
 
-  // const debouncedUpdates = useDebouncedCallback(async ({ editor }) => {
-  //   const json = editor.getJSON();
-  //   setSaveStatus("Saving...");
-  //   setContent(json);
-  //   // Simulate a delay in saving.
-  //   setTimeout(() => {
-  //     setSaveStatus("Saved");
-  //   }, 500);
-  // }, 750);
-
   const editor = useEditor({
     extensions: TiptapExtensions,
     editorProps: TiptapEditorProps,
@@ -152,17 +124,11 @@ export default function Editor(props) {
           from: selection.from - 2,
           to: selection.from,
         });
-        // we're using this for now until we can figure out a way to stream markdown text with proper formatting: https://github.com/steven-tey/novel/discussions/7
         complete(e.editor.getText());
-        // complete(e.editor.storage.markdown.getMarkdown());
         va.track("Autocomplete Shortcut Used");
       }
-      // else {
-      //   debouncedUpdates(e);
-      // }
     },
     content,
-    // autofocus: "end",
   });
 
   const { complete, completion, isLoading, stop } = useCompletion({
@@ -233,19 +199,10 @@ export default function Editor(props) {
 
   // Hydrate the editor with the content from localStorage.
   useEffect(() => {
-    if (
-      editor &&
-      content
-      //  && !hydrated
-    ) {
+    if (editor && content) {
       editor.commands.setContent(content);
-      // setHydrated(true);
     }
-  }, [
-    editor,
-    content,
-    // , hydrated
-  ]);
+  }, [editor, content]);
 
   return (
     <div className="overflow-auto min-h-screen min-w-screen">

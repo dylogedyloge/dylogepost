@@ -16,7 +16,7 @@ const DeleteConfirmationModal = ({ onDelete }) => {
   const handleDelete = () => {
     onDelete();
     closeModal();
-    toast.success("Blog post deleted");
+    toast.success("Document deleted");
   };
 
   return (
