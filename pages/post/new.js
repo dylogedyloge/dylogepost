@@ -16,7 +16,7 @@ export default function NewPost(props) {
     e.preventDefault();
     setGenerating(true);
     try {
-      const response = await fetch(`/api/generatePost`, {
+      const response = await fetch(`/api/posts/generatePost`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -88,7 +88,7 @@ export default function NewPost(props) {
               className="btn btn-block capitalize"
               disabled={!topic.trim() || !keywords.trim()}
             >
-              <div className="prose-sm text-sm"> Generate</div>
+              <div className="prose-sm text-sm">Generate</div>
             </button>
           </form>
         </div>

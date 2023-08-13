@@ -31,7 +31,7 @@ export default function Editor(props) {
 
   const handleDeleteConfirm = async () => {
     try {
-      const response = await fetch(`/api/deletePost`, {
+      const response = await fetch(`/api/posts/deletePost`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -89,7 +89,7 @@ export default function Editor(props) {
   const handleSaveChanges = async () => {
     try {
       const editedContent = editor.getHTML();
-      const editResponse = await fetch(`/api/editPost`, {
+      const editResponse = await fetch(`/api/posts/editPost`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

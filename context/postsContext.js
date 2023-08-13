@@ -77,7 +77,7 @@ export const PostsProvider = ({ children }) => {
 
   const getPosts = useCallback(
     async ({ lastPostDate, getNewerPosts = false }) => {
-      const result = await fetch(`/api/getPosts`, {
+      const result = await fetch(`/api/posts/getPosts`, {
         method: "POST",
         headers: {
           "content-type": "application/json",

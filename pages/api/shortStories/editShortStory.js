@@ -1,6 +1,6 @@
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { ObjectId } from "mongodb";
-import clientPromise from "../../lib/mongodb";
+import clientPromise from "../../../lib/mongodb";
 
 export default withApiAuthRequired(async function handler(req, res) {
   try {
@@ -13,16 +13,23 @@ export default withApiAuthRequired(async function handler(req, res) {
       auth0Id: sub,
     });
 
-    const { postId } = req.body;
+    const { shortStoryId, shortStoryContent } = req.body;
 
-    await db.collection("posts").deleteOne({
-      userId: userProfile._id,
-      _id: new ObjectId(postId),
-    });
+    await db.collection("shortStories").updateOne(
+      {
+        _id: new ObjectId(shortStoryId),
+        userId: userProfile._id,
+      },
+      {
+        $set: {
+          shortStoryContent,
+        },
+      }
+    );
 
     res.status(200).json({ success: true });
   } catch (e) {
-    console.log("ERROR TRYING TO DELETE A POST: ", e);
+    console.log("ERROR TRYING TO EDIT A SHORT STORY: ", e);
+    res.status(500).json({ success: false });
   }
-  return;
 });

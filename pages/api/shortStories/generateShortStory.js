@@ -1,6 +1,6 @@
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { Configuration, OpenAIApi } from "openai";
-import clientPromise from "../../lib/mongodb";
+import clientPromise from "../../../lib/mongodb";
 
 export default withApiAuthRequired(async function handler(req, res) {
   const { user } = await getSession(req, res);
@@ -34,7 +34,6 @@ export default withApiAuthRequired(async function handler(req, res) {
     return result;
   }
   const listOfCharacters = arrayToFormattedString(req.body.characters);
-  console.log(listOfCharacters);
 
   if (!genre || !characters) {
     res.status(422);
@@ -46,24 +45,23 @@ export default withApiAuthRequired(async function handler(req, res) {
     return;
   }
 
-  const storyIdeaContentResult = await openai.createChatCompletion({
+  const shortStoryContentResult = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [
       {
         role: "system",
-        content: "You are a novel writer.",
+        content: "You are a short story writer.",
       },
       {
         role: "user",
-        content: `Write 10 story ideas for a story in ${genre} genre, with these characters: ${listOfCharacters}. The response should be formatted in HTML, 
-        limited to the following HTML tags: h2,p. don't use li and ul tags`,
+        content: `write a short story in horror ${genre} with theses characters: ${listOfCharacters} in html format. only use one single <p> tag`,
       },
     ],
     temperature: 0,
   });
 
-  const storyIdeaContent =
-    storyIdeaContentResult.data.choices[0]?.message.content;
+  const shortStoryContent =
+    shortStoryContentResult.data.choices[0]?.message.content;
 
   /*await db.collection('users').updateOne(
   {
@@ -76,8 +74,8 @@ export default withApiAuthRequired(async function handler(req, res) {
   }
 );*/
 
-  const storyIdea = await db.collection("storyIdeas").insertOne({
-    storyIdeaContent: storyIdeaContent || "",
+  const shortStory = await db.collection("shortStories").insertOne({
+    shortStoryContent: shortStoryContent || "",
     genre,
     characters,
     userId: userProfile._id,
@@ -85,6 +83,6 @@ export default withApiAuthRequired(async function handler(req, res) {
   });
 
   res.status(200).json({
-    storyIdeaId: storyIdea.insertedId,
+    shortStoryId: shortStory.insertedId,
   });
 });

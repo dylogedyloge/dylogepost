@@ -5,6 +5,8 @@ import en from "../i18n/en.json";
 import fa from "../i18n/fa.json";
 import { useRouter } from "next/router";
 import { PostsProvider } from "../context/postsContext";
+import { ShortStoriesProvider } from "../context/shortStoriesContext";
+
 import { Toaster } from "sonner";
 import Loading from "../components/Loading/Loading";
 import { useEffect, useState } from "react";
@@ -49,19 +51,21 @@ export default function App({ Component, pageProps }) {
   return (
     <UserProvider>
       <PostsProvider>
-        <main className={`${isPersian ? "font-sans-fa" : "font-sans-en"} `}>
-          <IntlProvider
-            locale={router.locale}
-            messages={messages[router.locale]}
-          >
-            <Toaster closeButton />
-            {loading && <Loading />}
-            {getLayout(
-              <Component {...pageProps} dir={getDirection(router.locale)} />,
-              pageProps
-            )}
-          </IntlProvider>
-        </main>
+        <ShortStoriesProvider>
+          <main className={`${isPersian ? "font-sans-fa" : "font-sans-en"} `}>
+            <IntlProvider
+              locale={router.locale}
+              messages={messages[router.locale]}
+            >
+              <Toaster closeButton />
+              {loading && <Loading />}
+              {getLayout(
+                <Component {...pageProps} dir={getDirection(router.locale)} />,
+                pageProps
+              )}
+            </IntlProvider>
+          </main>
+        </ShortStoriesProvider>
       </PostsProvider>
     </UserProvider>
   );

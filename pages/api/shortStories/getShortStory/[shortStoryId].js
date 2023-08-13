@@ -1,5 +1,5 @@
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
-import clientPromise from "../../../lib/mongodb";
+import clientPromise from "../../../../lib/mongodb";
 
 export default withApiAuthRequired(async function handler(req, res) {
   try {
@@ -12,21 +12,21 @@ export default withApiAuthRequired(async function handler(req, res) {
       auth0Id: sub,
     });
 
-    const { postId } = req.query;
+    const { shortStoryId } = req.query;
 
-    // Retrieve the post based on postId and userId
-    const post = await db.collection("posts").findOne({
-      _id: postId,
+    // Retrieve the shortStory based on shortStoryId and userId
+    const shortStory = await db.collection("shortStories").findOne({
+      _id: shortStoryId,
       userId: userProfile._id,
     });
 
-    if (!post) {
-      // Handle case when the post doesn't exist or doesn't belong to the user
-      res.status(404).json({ error: "Post not found" });
+    if (!shortStory) {
+      // Handle case when the shortStory doesn't exist or doesn't belong to the user
+      res.status(404).json({ error: "ShortStory not found" });
       return;
     }
 
-    res.status(200).json({ post });
+    res.status(200).json({ shortStory });
     return;
   } catch (e) {
     console.log(e, "Error");

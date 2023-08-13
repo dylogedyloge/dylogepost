@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import PostsContext from "../../context/postsContext";
+import ShortStoriesContext from "../../context/shortStoriesContext";
 import { useLocalStorage } from "usehooks-ts";
 import { useIntl } from "react-intl";
 import { useRouter } from "next/router";
@@ -14,7 +15,6 @@ import {
   BsFillPersonFill,
   BsFillSunFill,
   BsFillWalletFill,
-  BsFillFolderFill,
   BsList,
   BsPalette2,
   BsPlusLg,
@@ -31,12 +31,22 @@ export const AppLayout = ({
   posts: postsFromSSR,
   postId,
   postCreated,
+  shortStories: shortStoriesFromSSR,
+  shortStoryId,
+  shortStoryCreated,
 }) => {
   const { user } = useUser();
-
   const { setPostsFromSSR, posts, getPosts, noMorePosts } =
     useContext(PostsContext);
-
+  console.log("posts", posts);
+  const {
+    setShortStoriesFromSSR,
+    shortStories,
+    getShortStories,
+    noMoreShortStories,
+  } = useContext(ShortStoriesContext);
+  console.log("shortStories", shortStories);
+  // fetch posts
   useEffect(() => {
     setPostsFromSSR(postsFromSSR);
     if (postId) {
@@ -46,6 +56,27 @@ export const AppLayout = ({
       }
     }
   }, [postsFromSSR, setPostsFromSSR, postId, postCreated, getPosts]);
+  // fetch short stories
+  useEffect(() => {
+    setShortStoriesFromSSR(shortStoriesFromSSR);
+    if (shortStoryId) {
+      const exists = shortStoriesFromSSR.find(
+        (shortStory) => shortStory._id === shortStoryId
+      );
+      if (!exists) {
+        getShortStories({
+          getNewerShortStories: true,
+          lastShortStoryDate: shortStoryCreated,
+        });
+      }
+    }
+  }, [
+    shortStoriesFromSSR,
+    setShortStoriesFromSSR,
+    shortStoryId,
+    shortStoryCreated,
+    getShortStories,
+  ]);
   // Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -325,30 +356,33 @@ export const AppLayout = ({
                             <BsPlusLg />
                           </Link>
                         </li>
-                        {posts.map((post) => (
+                        {shortStories.map((shortStory) => (
                           <li
-                            key={post._id}
+                            key={shortStory._id}
                             className="flex justify-between flex-row"
                           >
                             <div className="flex-1 overflow-hidden items-center">
                               <BsFillPenFill />
                               <Link
-                                href={`/post/${post._id}/editor`}
+                                href={`/shortStory/${shortStory._id}/editor`}
                                 className="truncate prose-sm text-xs"
                               >
-                                {post.title
-                                  ? removeHtmlTagsAndQuotation(post.title)
-                                  : post.topic}
+                                {/* {shortStory.title
+                                  ? removeHtmlTagsAndQuotation(shortStory.title)
+                                  : shortStory.topic} */}
+                                1
                               </Link>
                             </div>
                           </li>
                         ))}
                         <li>
-                          {!noMorePosts && (
+                          {!noMoreShortStories && (
                             <div
                               onClick={() => {
-                                getPosts({
-                                  lastPostDate: posts[posts.length - 1].create,
+                                getShortStories({
+                                  lastShortStoryDate:
+                                    shortStories[shortStories.length - 1]
+                                      .create,
                                 });
                               }}
                               className="cursor-pointer capitalize grid place-content-center"
@@ -675,36 +709,6 @@ export const AppLayout = ({
                 </li>
               </ul>
             </div>
-
-            {/* {posts.map((post) => (
-              <li key={post._id} className="flex justify-between flex-row">
-                <div className="flex-1 overflow-hidden items-center">
-                  <BsFillFileTextFill />
-                  <Link
-                    href={`/post/${post._id}/editor`}
-                    className="truncate prose-sm text-xs"
-                  >
-                    {post.title
-                      ? removeHtmlTagsAndQuotation(post.title)
-                      : post.topic}
-                  </Link>
-                </div>
-              </li>
-            ))}
-            {!noMorePosts && (
-              <div
-                onClick={() => {
-                  getPosts({
-                    lastPostDate: posts[posts.length - 1].create,
-                  });
-                }}
-                className="cursor-pointer mt-10 capitalize grid place-content-center"
-              >
-                <div className="prose-sm ">
-                  <BsArrowClockwise size={18} />
-                </div>
-              </div>
-            )} */}
             <li>
               <div className="divider"></div>
             </li>
