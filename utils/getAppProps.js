@@ -13,11 +13,42 @@ export const getAppProps = async (ctx) => {
     return {
       availableTokens: 0,
       posts: [],
+      shortStories: [],
     };
   }
 
   const posts = await db
     .collection("posts")
+    .find({
+      userId: user._id,
+    })
+    .limit(5)
+    .sort({
+      create: -1,
+    })
+    .toArray();
+  const shortStories = await db
+    .collection("shortStories")
+    .find({
+      userId: user._id,
+    })
+    .limit(5)
+    .sort({
+      create: -1,
+    })
+    .toArray();
+  const longStories = await db
+    .collection("longStories")
+    .find({
+      userId: user._id,
+    })
+    .limit(5)
+    .sort({
+      create: -1,
+    })
+    .toArray();
+  const movieScripts = await db
+    .collection("movieScripts")
     .find({
       userId: user._id,
     })
@@ -35,5 +66,23 @@ export const getAppProps = async (ctx) => {
       ...rest,
     })),
     postId: ctx.params?.postId || null,
+    shortStories: shortStories.map(({ create, _id, userId, ...rest }) => ({
+      _id: _id.toString(),
+      create: create.toString(),
+      ...rest,
+    })),
+    shortStoryId: ctx.params?.shortStoryId || null,
+    longStories: longStories.map(({ create, _id, userId, ...rest }) => ({
+      _id: _id.toString(),
+      create: create.toString(),
+      ...rest,
+    })),
+    longStoryId: ctx.params?.longStoryId || null,
+    movieScripts: movieScripts.map(({ create, _id, userId, ...rest }) => ({
+      _id: _id.toString(),
+      create: create.toString(),
+      ...rest,
+    })),
+    movieScriptId: ctx.params?.movieScriptId || null,
   };
 };

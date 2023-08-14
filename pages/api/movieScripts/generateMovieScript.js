@@ -48,36 +48,36 @@ export default withApiAuthRequired(async function handler(req, res) {
     return;
   }
 
-  const shortStoryContentResult = await openai.createChatCompletion({
+  const movieScriptContentResult = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [
       {
         role: "system",
-        content: "You are a short story writer.",
+        content: "You are a movie script writer.",
       },
       {
         role: "user",
-        content: `write a short story in horror ${genre} with theses characters: ${listOfCharacters} in html format. only use one single <p> tag`,
+        content: `write a movie script in horror ${genre} with theses characters: ${listOfCharacters} in html format. only use one single <p> tag`,
       },
     ],
     temperature: 0,
   });
-  const shortStoryContent =
-    shortStoryContentResult.data.choices[0]?.message.content;
+  const movieScriptContent =
+    movieScriptContentResult.data.choices[0]?.message.content;
   const titleResult = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [
       {
         role: "system",
-        content: "You are a short story writer.",
+        content: "You are a movie script writer.",
       },
       {
         role: "user",
-        content: `write a short story in horror ${genre} with theses characters: ${listOfCharacters} in html format. only use one single <p> tag`,
+        content: `write a movie script in horror ${genre} with theses characters: ${listOfCharacters} in html format. only use one single <p> tag`,
       },
       {
         role: "assistant",
-        content: shortStoryContent,
+        content: movieScriptContent,
       },
       {
         role: "user",
@@ -100,8 +100,8 @@ export default withApiAuthRequired(async function handler(req, res) {
   }
 );*/
 
-  const shortStory = await db.collection("shortStories").insertOne({
-    shortStoryContent: shortStoryContent || "",
+  const movieScript = await db.collection("movieScripts").insertOne({
+    movieScriptContent: movieScriptContent || "",
     title: title || "",
     genre,
     characters,
@@ -110,6 +110,6 @@ export default withApiAuthRequired(async function handler(req, res) {
   });
 
   res.status(200).json({
-    shortStoryId: shortStory.insertedId,
+    movieScriptId: movieScript.insertedId,
   });
 });

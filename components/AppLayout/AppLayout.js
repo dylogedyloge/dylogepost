@@ -4,11 +4,12 @@ import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import PostsContext from "../../context/postsContext";
 import ShortStoriesContext from "../../context/shortStoriesContext";
+import LongStoriesContext from "../../context/longStoriesContext";
+import MovieScriptsContext from "../../context/movieScriptsContext";
 import { useLocalStorage } from "usehooks-ts";
 import { useIntl } from "react-intl";
 import { useRouter } from "next/router";
 import {
-  BsArrowClockwise,
   BsFillArrowRightSquareFill,
   BsFillFileTextFill,
   BsFillMoonStarsFill,
@@ -34,18 +35,38 @@ export const AppLayout = ({
   shortStories: shortStoriesFromSSR,
   shortStoryId,
   shortStoryCreated,
+  longStories: longStoriesFromSSR,
+  longStoryId,
+  longStoryCreated,
+  movieScripts: movieScriptsFromSSR,
+  movieScriptId,
+  movieScriptCreated,
 }) => {
   const { user } = useUser();
   const { setPostsFromSSR, posts, getPosts, noMorePosts } =
     useContext(PostsContext);
-  console.log("posts", posts);
+
   const {
     setShortStoriesFromSSR,
     shortStories,
     getShortStories,
     noMoreShortStories,
   } = useContext(ShortStoriesContext);
-  console.log("shortStories", shortStories);
+
+  const {
+    setLongStoriesFromSSR,
+    longStories,
+    getLongStories,
+    noMoreLongStories,
+  } = useContext(LongStoriesContext);
+
+  const {
+    setMovieScriptsFromSSR,
+    movieScripts,
+    getMovieScripts,
+    noMoreMovieScripts,
+  } = useContext(MovieScriptsContext);
+
   // fetch posts
   useEffect(() => {
     setPostsFromSSR(postsFromSSR);
@@ -76,6 +97,48 @@ export const AppLayout = ({
     shortStoryId,
     shortStoryCreated,
     getShortStories,
+  ]);
+  // fetch long stories
+  useEffect(() => {
+    setLongStoriesFromSSR(longStoriesFromSSR);
+    if (longStoryId) {
+      const exists = longStoriesFromSSR.find(
+        (longStory) => longStory._id === longStoryId
+      );
+      if (!exists) {
+        getLongStories({
+          getNewerLongStories: true,
+          lastLongStoryDate: longStoryCreated,
+        });
+      }
+    }
+  }, [
+    longStoriesFromSSR,
+    setLongStoriesFromSSR,
+    longStoryId,
+    longStoryCreated,
+    getLongStories,
+  ]);
+  // fetch movie scripts
+  useEffect(() => {
+    setMovieScriptsFromSSR(movieScriptsFromSSR);
+    if (movieScriptId) {
+      const exists = movieScriptsFromSSR.find(
+        (movieScript) => movieScript._id === movieScriptId
+      );
+      if (!exists) {
+        getMovieScripts({
+          getNewerMovieScripts: true,
+          lastMovieScriptDate: movieScriptCreated,
+        });
+      }
+    }
+  }, [
+    movieScriptsFromSSR,
+    setMovieScriptsFromSSR,
+    movieScriptId,
+    movieScriptCreated,
+    getMovieScripts,
   ]);
   // Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -185,8 +248,8 @@ export const AppLayout = ({
                               }}
                               className="cursor-pointer capitalize grid place-content-center"
                             >
-                              <div className="prose-sm ">
-                                <BsArrowClockwise size={18} />
+                              <div className=" capitalize text-xs prose-sm ">
+                                Load More
                               </div>
                             </div>
                           )}
@@ -223,36 +286,40 @@ export const AppLayout = ({
                             <BsPlusLg />
                           </Link>
                         </li>
-                        {posts.map((post) => (
+                        {movieScripts.map((movieScript) => (
                           <li
-                            key={post._id}
+                            key={movieScript._id}
                             className="flex justify-between flex-row"
                           >
                             <div className="flex-1 overflow-hidden items-center">
                               <BsFillCameraReelsFill />
                               <Link
-                                href={`/post/${post._id}/editor`}
+                                href={`/movieScript/${movieScript._id}/editor`}
                                 className="truncate prose-sm text-xs"
                               >
-                                {post.title
-                                  ? removeHtmlTagsAndQuotation(post.title)
-                                  : post.topic}
+                                {movieScript.title
+                                  ? removeHtmlTagsAndQuotation(
+                                      movieScript.title
+                                    )
+                                  : movieScript.topic}
                               </Link>
                             </div>
                           </li>
                         ))}
                         <li>
-                          {!noMorePosts && (
+                          {!noMoreMovieScripts && (
                             <div
                               onClick={() => {
-                                getPosts({
-                                  lastPostDate: posts[posts.length - 1].create,
+                                getMovieScripts({
+                                  lastMovieScriptDate:
+                                    movieScripts[movieScripts.length - 1]
+                                      .create,
                                 });
                               }}
                               className="cursor-pointer capitalize grid place-content-center"
                             >
-                              <div className="prose-sm ">
-                                <BsArrowClockwise size={18} />
+                              <div className=" capitalize text-xs prose-sm ">
+                                Load More
                               </div>
                             </div>
                           )}
@@ -290,36 +357,37 @@ export const AppLayout = ({
                             <BsPlusLg />
                           </Link>
                         </li>
-                        {posts.map((post) => (
+                        {longStories.map((longStory) => (
                           <li
-                            key={post._id}
+                            key={longStory._id}
                             className="flex justify-between flex-row"
                           >
                             <div className="flex-1 overflow-hidden items-center">
                               <BsVectorPen />
                               <Link
-                                href={`/post/${post._id}/editor`}
+                                href={`/longStory/${longStory._id}/editor`}
                                 className="truncate prose-sm text-xs"
                               >
-                                {post.title
-                                  ? removeHtmlTagsAndQuotation(post.title)
-                                  : post.topic}
+                                {longStory.title
+                                  ? removeHtmlTagsAndQuotation(longStory.title)
+                                  : longStory.topic}
                               </Link>
                             </div>
                           </li>
                         ))}
                         <li>
-                          {!noMorePosts && (
+                          {!noMoreLongStories && (
                             <div
                               onClick={() => {
-                                getPosts({
-                                  lastPostDate: posts[posts.length - 1].create,
+                                getLongStories({
+                                  lastLongStoryDate:
+                                    longStories[longStories.length - 1].create,
                                 });
                               }}
                               className="cursor-pointer capitalize grid place-content-center"
                             >
-                              <div className="prose-sm ">
-                                <BsArrowClockwise size={18} />
+                              <div className=" capitalize text-xs prose-sm ">
+                                Load More
                               </div>
                             </div>
                           )}
@@ -367,10 +435,9 @@ export const AppLayout = ({
                                 href={`/shortStory/${shortStory._id}/editor`}
                                 className="truncate prose-sm text-xs"
                               >
-                                {/* {shortStory.title
+                                {shortStory.title
                                   ? removeHtmlTagsAndQuotation(shortStory.title)
-                                  : shortStory.topic} */}
-                                1
+                                  : shortStory.topic}
                               </Link>
                             </div>
                           </li>
@@ -387,8 +454,8 @@ export const AppLayout = ({
                               }}
                               className="cursor-pointer capitalize grid place-content-center"
                             >
-                              <div className="prose-sm ">
-                                <BsArrowClockwise size={18} />
+                              <div className=" capitalize text-xs prose-sm ">
+                                Load More
                               </div>
                             </div>
                           )}
@@ -561,8 +628,8 @@ export const AppLayout = ({
                           }}
                           className="cursor-pointer mt-10 capitalize grid place-content-center"
                         >
-                          <div className="prose-sm ">
-                            <BsArrowClockwise size={18} />
+                          <div className=" capitalize text-xs prose-sm ">
+                            Load More
                           </div>
                         </div>
                       )}
@@ -580,35 +647,36 @@ export const AppLayout = ({
                       Movie Scripts
                     </summary>
                     <ul>
-                      {posts.map((post) => (
+                      {movieScripts.map((movieScript) => (
                         <li
-                          key={post._id}
+                          key={movieScript._id}
                           className="flex justify-between flex-row"
                         >
                           <div className="flex-1 overflow-hidden items-center">
                             <BsFillCameraReelsFill />
                             <Link
-                              href={`/post/${post._id}/editor`}
+                              href={`/movieScript/${movieScript._id}/editor`}
                               className="truncate prose-sm text-xs"
                             >
-                              {post.title
-                                ? removeHtmlTagsAndQuotation(post.title)
-                                : post.topic}
+                              {movieScript.title
+                                ? removeHtmlTagsAndQuotation(movieScript.title)
+                                : movieScript.topic}
                             </Link>
                           </div>
                         </li>
                       ))}
-                      {!noMorePosts && (
+                      {!noMoreMovieScripts && (
                         <div
                           onClick={() => {
-                            getPosts({
-                              lastPostDate: posts[posts.length - 1].create,
+                            getMovieScripts({
+                              lastMovieScriptDate:
+                                movieScripts[movieScripts.length - 1].create,
                             });
                           }}
                           className="cursor-pointer mt-10 capitalize grid place-content-center"
                         >
-                          <div className="prose-sm ">
-                            <BsArrowClockwise size={18} />
+                          <div className=" capitalize text-xs prose-sm ">
+                            Load More
                           </div>
                         </div>
                       )}
@@ -626,35 +694,36 @@ export const AppLayout = ({
                       Long Stories
                     </summary>
                     <ul>
-                      {posts.map((post) => (
+                      {longStories.map((longStory) => (
                         <li
-                          key={post._id}
+                          key={longStory._id}
                           className="flex justify-between flex-row"
                         >
                           <div className="flex-1 overflow-hidden items-center">
                             <BsVectorPen />
                             <Link
-                              href={`/post/${post._id}/editor`}
+                              href={`/longStory/${longStory._id}/editor`}
                               className="truncate prose-sm text-xs"
                             >
-                              {post.title
-                                ? removeHtmlTagsAndQuotation(post.title)
-                                : post.topic}
+                              {longStory.title
+                                ? removeHtmlTagsAndQuotation(longStory.title)
+                                : longStory.topic}
                             </Link>
                           </div>
                         </li>
                       ))}
-                      {!noMorePosts && (
+                      {!noMoreLongStories && (
                         <div
                           onClick={() => {
-                            getPosts({
-                              lastPostDate: posts[posts.length - 1].create,
+                            getLongStories({
+                              lastLongStoryDate:
+                                longStories[longStories.length - 1].create,
                             });
                           }}
                           className="cursor-pointer mt-10 capitalize grid place-content-center"
                         >
-                          <div className="prose-sm ">
-                            <BsArrowClockwise size={18} />
+                          <div className=" capitalize text-xs prose-sm ">
+                            Load More
                           </div>
                         </div>
                       )}
@@ -672,38 +741,41 @@ export const AppLayout = ({
                       Short Stories
                     </summary>
                     <ul>
-                      {posts.map((post) => (
+                      {shortStories.map((shortStory) => (
                         <li
-                          key={post._id}
+                          key={shortStory._id}
                           className="flex justify-between flex-row"
                         >
                           <div className="flex-1 overflow-hidden items-center">
                             <BsFillPenFill />
                             <Link
-                              href={`/post/${post._id}/editor`}
+                              href={`/shortStory/${shortStory._id}/editor`}
                               className="truncate prose-sm text-xs"
                             >
-                              {post.title
-                                ? removeHtmlTagsAndQuotation(post.title)
-                                : post.topic}
+                              {shortStory.title
+                                ? removeHtmlTagsAndQuotation(shortStory.title)
+                                : shortStory.topic}
                             </Link>
                           </div>
                         </li>
                       ))}
-                      {!noMorePosts && (
-                        <div
-                          onClick={() => {
-                            getPosts({
-                              lastPostDate: posts[posts.length - 1].create,
-                            });
-                          }}
-                          className="cursor-pointer mt-10 capitalize grid place-content-center"
-                        >
-                          <div className="prose-sm ">
-                            <BsArrowClockwise size={18} />
+                      <li>
+                        {!noMoreShortStories && (
+                          <div
+                            onClick={() => {
+                              getShortStories({
+                                lastShortStoryDate:
+                                  shortStories[shortStories.length - 1].create,
+                              });
+                            }}
+                            className="cursor-pointer capitalize grid place-content-center"
+                          >
+                            <div className=" capitalize text-xs prose-sm ">
+                              Load More
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
+                      </li>
                     </ul>
                   </details>
                 </li>

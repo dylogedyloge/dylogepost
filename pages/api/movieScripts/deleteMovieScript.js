@@ -1,4 +1,5 @@
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
+import { ObjectId } from "mongodb";
 import clientPromise from "../../../lib/mongodb";
 
 export default withApiAuthRequired(async function handler(req, res) {
@@ -12,21 +13,16 @@ export default withApiAuthRequired(async function handler(req, res) {
       auth0Id: sub,
     });
 
-    const { lastPostDate, getNewerPosts } = req.body;
+    const { movieScriptId } = req.body;
 
-    const posts = await db
-      .collection("posts")
-      .find({
-        userId: userProfile._id,
-        create: { [getNewerPosts ? "$gt" : "$lt"]: new Date(lastPostDate) },
-      })
-      .limit(getNewerPosts ? 0 : 5)
-      .sort({ create: -1 })
-      .toArray();
+    await db.collection("movieScripts").deleteOne({
+      userId: userProfile._id,
+      _id: new ObjectId(movieScriptId),
+    });
 
-    res.status(200).json({ posts });
-    return;
+    res.status(200).json({ success: true });
   } catch (e) {
-    console.log(e, "ErRor");
+    console.log("ERROR TRYING TO DELETE A SHORT STORY: ", e);
   }
+  return;
 });

@@ -1,13 +1,11 @@
 import { Editor } from "@tiptap/core";
-import { AiOutlineCheck } from "react-icons/ai";
+import { BsCheck2, BsPalette } from "react-icons/bs";
 import { BiSolidChevronDown } from "react-icons/bi";
-import { MdOutlineColorLens } from "react-icons/md";
-
 import { Dispatch, FC, SetStateAction } from "react";
 
 export interface BubbleColorMenuItem {
   name: string;
-  color: string | null;
+  color: string;
 }
 
 interface ColorSelectorProps {
@@ -55,44 +53,45 @@ const TEXT_COLORS: BubbleColorMenuItem[] = [
   },
 ];
 
-const HIGHLIGHT_COLORS: BubbleColorMenuItem[] = [
-  {
-    name: "Default",
-    color: "#ffffff",
-  },
-  {
-    name: "Purple",
-    color: "#F6F3F8",
-  },
-  {
-    name: "Red",
-    color: "#FDEBEB",
-  },
-  {
-    name: "Yellow",
-    color: "#FEF9C3",
-  },
-  {
-    name: "Blue",
-    color: "#E6F3F7",
-  },
-  {
-    name: "Green",
-    color: "#EDF3EC",
-  },
-  {
-    name: "Orange",
-    color: "#FAEBDD",
-  },
-  {
-    name: "Pink",
-    color: "#FAF1F5",
-  },
-  {
-    name: "Gray",
-    color: "#F1F1EF",
-  },
-];
+const HIGHLIGHT_COLORS: BubbleColorMenuItem[] = TEXT_COLORS;
+//  [
+//   {
+//     name: "Default",
+//     color: "#ffffff",
+//   },
+//   {
+//     name: "Purple",
+//     color: "#F6F3F8",
+//   },
+//   {
+//     name: "Red",
+//     color: "#FDEBEB",
+//   },
+//   {
+//     name: "Yellow",
+//     color: "#FEF9C3",
+//   },
+//   {
+//     name: "Blue",
+//     color: "#E6F3F7",
+//   },
+//   {
+//     name: "Green",
+//     color: "#EDF3EC",
+//   },
+//   {
+//     name: "Orange",
+//     color: "#FAEBDD",
+//   },
+//   {
+//     name: "Pink",
+//     color: "#FAF1F5",
+//   },
+//   {
+//     name: "Gray",
+//     color: "#F1F1EF",
+//   },
+// ];
 
 export const ColorSelector: FC<ColorSelectorProps> = ({
   editor,
@@ -114,13 +113,13 @@ export const ColorSelector: FC<ColorSelectorProps> = ({
         onClick={() => setIsOpen(!isOpen)}
       >
         <span
-          className="rounded-sm px-1"
+          className="rounded-sm p-1"
           style={{
             color: activeColorItem?.color,
             backgroundColor: activeHighlightItem?.color,
           }}
         >
-          <MdOutlineColorLens />
+          <BsPalette />
         </span>
 
         <BiSolidChevronDown className="h-4 w-4 " />
@@ -131,7 +130,9 @@ export const ColorSelector: FC<ColorSelectorProps> = ({
           <ul className="menu bg-base-200 w-56 rounded-box p-0 m-0 ">
             <li>
               <details>
-                <summary>Color</summary>
+                <summary className="text-xs prose-sm font-semibold">
+                  Color
+                </summary>
                 {TEXT_COLORS.map(({ name, color }, index) => (
                   <button
                     key={index}
@@ -141,7 +142,7 @@ export const ColorSelector: FC<ColorSelectorProps> = ({
                         editor.chain().focus().setColor(color).run();
                       setIsOpen(false);
                     }}
-                    className="flex h-full items-center gap-1 p-2 text-sm font-medium rounded-md hover:bg-base-300 active:bg-base-300"
+                    className="flex h-full w-full justify-between items-center gap-1 p-2 text-sm font-medium rounded-md hover:bg-base-300 active:bg-base-300"
                   >
                     <div className="flex items-center space-x-2 ">
                       <div
@@ -150,10 +151,10 @@ export const ColorSelector: FC<ColorSelectorProps> = ({
                       >
                         A
                       </div>
-                      <span>{name}</span>
+                      <span className="text-xs prose-sm">{name}</span>
                     </div>
                     {editor.isActive("textStyle", { color }) && (
-                      <AiOutlineCheck className="h-4 w-4" />
+                      <BsCheck2 className="h-4 w-4" />
                     )}
                   </button>
                 ))}
@@ -161,7 +162,9 @@ export const ColorSelector: FC<ColorSelectorProps> = ({
             </li>
             <li>
               <details>
-                <summary>Background Color</summary>
+                <summary className="text-xs prose-sm font-semibold">
+                  Background Color
+                </summary>
                 {HIGHLIGHT_COLORS.map(({ name, color }, index) => (
                   <button
                     key={index}
@@ -171,7 +174,7 @@ export const ColorSelector: FC<ColorSelectorProps> = ({
                         editor.commands.setHighlight({ color });
                       setIsOpen(false);
                     }}
-                    className="flex h-full items-center gap-1 p-2 text-sm font-medium rounded-md hover:bg-base-300 active:bg-base-300"
+                    className="flex h-full w-full justify-between items-center gap-1 p-2 text-sm font-medium rounded-md hover:bg-base-300 active:bg-base-300"
                   >
                     <div className="flex items-center space-x-2 ">
                       <div
@@ -180,10 +183,10 @@ export const ColorSelector: FC<ColorSelectorProps> = ({
                       >
                         A
                       </div>
-                      <span>{name}</span>
+                      <span className="text-xs prose-sm">{name}</span>
                     </div>
                     {editor.isActive("highlight", { color }) && (
-                      <AiOutlineCheck className="h-4 w-4" />
+                      <BsCheck2 className="h-4 w-4" />
                     )}
                   </button>
                 ))}

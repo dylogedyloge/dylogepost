@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { getAppProps } from "../../utils/getAppProps";
 import { BsFillXSquareFill, BsPlusSquareFill } from "react-icons/bs";
 
-export default function NewMoviescript(props) {
+export default function NewStory(props) {
   const router = useRouter();
   const [genre, setGenre] = useState("");
   const [characters, setCharacters] = useState([
@@ -33,12 +33,11 @@ export default function NewMoviescript(props) {
     setCharacters(updatedCharacters);
   };
 
-  // const handleSubmit = (e) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setGenerating(true);
     try {
-      const response = await fetch(`/api/generateMoviescriptIdeas`, {
+      const response = await fetch(`/api/movieScripts/generateMovieScript`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -47,9 +46,10 @@ export default function NewMoviescript(props) {
         body: JSON.stringify({ genre, characters }),
       });
       const json = await response.json();
+      // console.log(response);
 
-      if (json?.moviescriptId) {
-        router.push(`/moviescript/${json.moviescriptId}/editor`);
+      if (json?.movieScriptId) {
+        router.push(`/movieScript/${json.movieScriptId}/editor`);
       }
     } catch (e) {
       setGenerating(false);
@@ -64,7 +64,6 @@ export default function NewMoviescript(props) {
     <div className="grid place-items-center min-h-screen ">
       {!!generating && (
         <div className=" grid h-screen place-items-center ">
-          {" "}
           <span className="loading loading-ring loading-sm"></span>
         </div>
       )}
@@ -77,24 +76,86 @@ export default function NewMoviescript(props) {
             <div className=" grid grid-cols-5 ">
               <div className="mb-5 col-span-5">
                 <label className="label" htmlFor="genre">
-                  <span className="label-text text-md  prose-sm">Genre:</span>
+                  <span className="label-text text-xs  prose-sm">Genre:</span>
                 </label>
                 <select
-                  className="select select-bordered w-full  "
+                  className="select select-bordered w-full text-xs prose-sm "
                   id="genre"
                   value={genre}
                   onChange={handleGenreChange}
                 >
-                  <option disabled selected value="">
+                  <option
+                    disabled
+                    selected
+                    value=""
+                    className="text-xs prose-sm"
+                  >
                     Select a genre
                   </option>
-                  <option value="horror" className="prose-sm">
+                  <option value="romance" className="text-xs prose-sm">
+                    Romance
+                  </option>
+                  <option value="crime" className="text-xs prose-sm">
+                    Crime
+                  </option>
+                  <option value="mystery" className="text-xs prose-sm">
+                    Mystery
+                  </option>
+                  <option value="thriller" className="text-xs prose-sm">
+                    Thriller
+                  </option>
+                  <option value="science-fiction" className="text-xs prose-sm">
+                    Science Fiction
+                  </option>
+                  <option value="fantasy" className="text-xs prose-sm">
+                    Fantasy
+                  </option>
+                  <option
+                    value="historical-fiction"
+                    className="text-xs prose-sm"
+                  >
+                    Historical Fiction
+                  </option>
+                  <option value="literary-fiction" className="text-xs prose-sm">
+                    Literary Fiction
+                  </option>
+                  <option value="horror" className="text-xs prose-sm">
                     Horror
                   </option>
-                  <option value="action" className="prose-sm">
+                  <option value="young-adult" className="text-xs prose-sm">
+                    Young Adult
+                  </option>
+                  <option value="children" className="text-xs prose-sm">
+                    Children
+                  </option>
+                  <option value="adventure" className="text-xs prose-sm">
+                    Adventure
+                  </option>
+                  <option value="action" className="text-xs prose-sm">
                     Action
                   </option>
-                  <option value="detective" className="prose-sm">
+                  <option value="urban-fiction" className="text-xs prose-sm">
+                    Urban Fiction
+                  </option>
+                  <option value="dystopian" className="text-xs prose-sm">
+                    Dystopian
+                  </option>
+                  <option
+                    value="paranormal-romance"
+                    className="text-xs prose-sm"
+                  >
+                    Paranormal Romance
+                  </option>
+                  <option value="comedy" className="text-xs prose-sm">
+                    Comedy
+                  </option>
+                  <option value="magicl-realism" className="text-xs prose-sm">
+                    Magicl Realism
+                  </option>
+                  <option value="suspence" className="text-xs prose-sm">
+                    Suspence
+                  </option>
+                  <option value="detective" className="text-xs prose-sm">
                     Detective
                   </option>
                 </select>
@@ -107,20 +168,20 @@ export default function NewMoviescript(props) {
                   <button
                     type="button"
                     onClick={() => handleRemoveCharacter(index)}
-                    className={`btn btn-square btn-ghost btn-xs absolute top-4 right-4 prose-sm ${
+                    className={`btn btn-square btn-ghost btn-xs absolute top-4 right-4 text-xs prose-sm ${
                       index === 0 ? "hidden" : ""
                     }`}
                   >
                     <BsFillXSquareFill size={18} />
                   </button>
-                  <p className="text-md text-center font-semibold mb-4 col-span-6 prose-sm">
+                  <p className="text-md text-center font-semibold mb-4 col-span-6 text-xs prose-sm">
                     Character {index + 1}
                   </p>
 
                   <div className="form-control w-full col-span-3 ">
                     <label className="label">
                       <span
-                        className="label-text prose-sm"
+                        className="label-text text-xs prose-sm"
                         htmlFor={`name-${index}`}
                       >
                         Name
@@ -129,7 +190,7 @@ export default function NewMoviescript(props) {
                     <input
                       type="text"
                       placeholder="Type here"
-                      className="input input-bordered w-full prose-sm"
+                      className="input input-bordered w-full text-xs prose-sm"
                       onChange={(e) =>
                         handleCharacterChange(index, "name", e.target.value)
                       }
@@ -140,7 +201,7 @@ export default function NewMoviescript(props) {
                   <div className="form-control w-full col-span-3  ">
                     <label className="label">
                       <span
-                        className="label-text prose-sm"
+                        className="label-text text-xs prose-sm"
                         htmlFor={`age-${index}`}
                       >
                         Age
@@ -149,7 +210,7 @@ export default function NewMoviescript(props) {
                     <input
                       type="text"
                       placeholder="Type here"
-                      className="input input-bordered w-full max-w-xs prose-sm"
+                      className="input input-bordered w-full max-w-xs text-xs prose-sm"
                       value={character.age}
                       onChange={(e) =>
                         handleCharacterChange(index, "age", e.target.value)
@@ -161,7 +222,7 @@ export default function NewMoviescript(props) {
                   <div className="form-control col-span-6">
                     <label className="label">
                       <span
-                        className="label-text prose-sm "
+                        className="label-text text-xs prose-sm "
                         htmlFor={`description-${index}`}
                       >
                         Description
@@ -169,7 +230,7 @@ export default function NewMoviescript(props) {
                     </label>
                     <textarea
                       id={`description-${index}`}
-                      className="textarea textarea-bordered h-24 prose-sm"
+                      className="textarea textarea-bordered h-24 text-xs prose-sm"
                       placeholder="Character description"
                       value={character.description}
                       onChange={(e) =>
@@ -183,12 +244,12 @@ export default function NewMoviescript(props) {
                   </div>
 
                   <button
-                    className="btn col-span-6 "
+                    className="btn col-span-6 text-xs prose-sm"
                     type="button"
                     onClick={handleAddCharacter}
                   >
                     <BsPlusSquareFill />
-                    <div className="hidden sm:block prose-sm capitalize">
+                    <div className="hidden sm:block text-xs prose-sm capitalize">
                       Add Another Character
                     </div>
                   </button>
@@ -197,7 +258,11 @@ export default function NewMoviescript(props) {
 
               <button
                 type="submit"
-                className="btn btn- capitalize col-span-5 prose-sm"
+                className="btn btn- capitalize col-span-5 text-xs prose-sm"
+                disabled={
+                  !genre.trim() ||
+                  characters.some((character) => !character.name.trim())
+                }
               >
                 Generate
               </button>
@@ -209,7 +274,7 @@ export default function NewMoviescript(props) {
   );
 }
 
-NewMoviescript.getLayout = function getLayout(page, pageProps) {
+NewStory.getLayout = function getLayout(page, pageProps) {
   return <AppLayout {...pageProps}>{page}</AppLayout>;
 };
 

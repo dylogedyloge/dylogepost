@@ -213,22 +213,22 @@ export default function Editor(props) {
           }}
           className="min-h-screen min-w-screen sm:mx-10"
         >
-          {/* <div className="card mx-10 sm:mx-32 shadow-2xl p-10    rounded-md">
+          <div className="card mx-10 sm:mx-32 shadow-2xl p-10    rounded-md">
             <div className=" text-2xl font-bold mt-4 mb-6 prose-sm ">
               {props.title}
             </div>
-            <div className="mb-10 text-justify w-full prose-sm">
-              {props.metaDescription}
-            </div>
-            <div className="font-bold prose-sm">Keywords</div>
+            <div className="font-bold prose-sm">Characters</div>
             <div>
-              {props.keywords.split(",").map((keyword, i) => (
-                <div key={i} className="prose-sm">
-                  {keyword}
+              {props.characters.map((character, index) => (
+                <div key={index}>
+                  {character.name}, {character.age} years old,{" "}
+                  {character.description}
                 </div>
               ))}
+              <div className="font-bold prose-sm">Genre</div>
+              {props.genre}
             </div>
-          </div> */}
+          </div>
           <div className="divider"></div>
           {editor && <EditorBubbleMenu editor={editor} />}
           <EditorContent editor={editor} className="p-10 prose-sm w-full" />
@@ -323,9 +323,10 @@ export const getServerSideProps = withPageAuthRequired({
       props: {
         id: ctx.params.shortStoryId,
         shortStoryContent: shortStory.shortStoryContent,
-        // title: shortStory.title,
+        title: shortStory.title,
         // metaDescription: shortStory.metaDescription,
-        // keywords: shortStory.keywords,
+        genre: shortStory.genre,
+        characters: shortStory.characters,
         shortStoryCreated: shortStory.create.toString(),
         ...props,
       },

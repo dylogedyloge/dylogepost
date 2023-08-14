@@ -1,4 +1,5 @@
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
+import { ObjectId } from "mongodb";
 import clientPromise from "../../../lib/mongodb";
 
 export default withApiAuthRequired(async function handler(req, res) {
@@ -11,24 +12,24 @@ export default withApiAuthRequired(async function handler(req, res) {
     const userProfile = await db.collection("users").findOne({
       auth0Id: sub,
     });
-    const { lastShortStoryDate, getNewerShortStories } = req.body;
 
-    const shortStories = await db
-      .collection("shortStories")
-      .find({
+    const { longStoryId, longStoryContent } = req.body;
+
+    await db.collection("longStories").updateOne(
+      {
+        _id: new ObjectId(longStoryId),
         userId: userProfile._id,
-        create: {
-          [getNewerShortStories ? "$gt" : "$lt"]: new Date(lastShortStoryDate),
+      },
+      {
+        $set: {
+          longStoryContent,
         },
-      })
-      .limit(getNewerShortStories ? 0 : 5)
-      .sort({ create: -1 })
-      .toArray();
+      }
+    );
 
-    res.status(200).json({ shortStories });
-    return;
+    res.status(200).json({ success: true });
   } catch (e) {
-    console.log(e, "ErRor");
-    res.status(500).json({ error: "An error occurred." });
+    console.log("ERROR TRYING TO EDIT A SHORT STORY: ", e);
+    res.status(500).json({ success: false });
   }
 });

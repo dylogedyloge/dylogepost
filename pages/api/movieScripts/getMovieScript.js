@@ -11,21 +11,21 @@ export default withApiAuthRequired(async function handler(req, res) {
     const userProfile = await db.collection("users").findOne({
       auth0Id: sub,
     });
-    const { lastShortStoryDate, getNewerShortStories } = req.body;
+    const { lastMovieScriptDate, getNewerMovieScripts } = req.body;
 
-    const shortStories = await db
-      .collection("shortStories")
+    const movieScripts = await db
+      .collection("movieScripts")
       .find({
         userId: userProfile._id,
         create: {
-          [getNewerShortStories ? "$gt" : "$lt"]: new Date(lastShortStoryDate),
+          [getNewerMovieScripts ? "$gt" : "$lt"]: new Date(lastMovieScriptDate),
         },
       })
-      .limit(getNewerShortStories ? 0 : 5)
+      .limit(getNewerMovieScripts ? 0 : 5)
       .sort({ create: -1 })
       .toArray();
 
-    res.status(200).json({ shortStories });
+    res.status(200).json({ movieScripts });
     return;
   } catch (e) {
     console.log(e, "ErRor");
