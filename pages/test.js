@@ -2,38 +2,27 @@ import React, { useState } from "react";
 
 const MovieScript = () => {
   const initialScript = `
-INT. LIVING ROOM - DAY
+  Scene 1: Prologue - Abandoned Warehouse
 
-JAMES, a young man in his 20s, sits on the couch, reading a book. The room is cozy with soft lighting.
-
-JAMES
-(to himself)
-I wonder what adventures await me within these pages.
-
-The front door creaks open, and LILY, James' roommate, enters, looking exhausted.
-
-LILY
-Hey, James. Long day at work.
-
-JAMES
-(looking up, smiling)
-Welcome back, Lily. Want me to make some tea?
-
-Lily nods gratefully and collapses onto the couch.
-
-EXT. CAFE - NIGHT
-
-James and Lily sit across from each other at a small table on the cafe patio. Steam rises from their mugs.
-
-LILY
-You know, I've always wanted to go on a real adventure.
-
-JAMES
-What's stopping you?
-
-They share a meaningful look, and their hands touch briefly.
-
-FADE OUT.
+  [Darkness blankets an abandoned warehouse, where the moon's feeble light struggles to pierce through the windows. The air is heavy with tension, and an eerie silence hangs in the air. The camera moves cautiously through the space, revealing rusted chains hanging from the ceiling and discarded debris strewn across the floor. A single flickering lightbulb casts long, unsettling shadows on the walls.]
+  
+  [The sound of distant footsteps echoes, growing louder as a shadowy figure emerges from the darkness. The figure's face is obscured, and their movements are deliberate and calculated. The camera focuses on their gloved hands, which hold a gleaming, serrated knife. The blade glints ominously as it catches the faint light.]
+  
+  [Suddenly, a blood-curdling scream cuts through the silence. The camera jerks, panning to a corner of the warehouse where another shadowy figure is huddled, their face contorted in terror. The figure's hands are bound, and they struggle frantically against their restraints.]
+  
+  Victim (sobbing):
+  Please... please let me go!
+  
+  [The shadowy figure with the knife approaches, their steps deliberate and unhurried. The victim's cries grow more desperate, but the figure remains unmoved, their presence exuding a palpable malevolence.]
+  
+  Shadowy Figure (coldly):
+  You know why you're here.
+  
+  [Victim's sobs escalate as the figure looms over them, raising the knife. The camera cuts between close-ups of the victim's fear-stricken eyes and the glinting blade. The tension reaches a fever pitch, and just as the blade descends, the scene cuts to black.]
+  
+  [Title card appears: "Shadows of Desolation"]
+  
+  [The prologue sets a chilling tone for the movie, hinting at the horrors that await and the malevolent force that drives the narrative.]
 `;
 
   const [script, setScript] = useState(initialScript);
