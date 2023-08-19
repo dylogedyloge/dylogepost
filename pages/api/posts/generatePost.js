@@ -21,6 +21,8 @@ export default withApiAuthRequired(async function handler(req, res) {
   const openai = new OpenAIApi(config);
 
   const { topic, keywords } = req.body;
+  // const { scene1} = req.body;
+
 
   if (!topic || !keywords) {
     res.status(422);

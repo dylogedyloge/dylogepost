@@ -10,6 +10,8 @@ import {
 
 import { NodeSelector } from "./node-selector";
 import { ColorSelector } from "./color-selector";
+import { DylogeSelector } from "./dyloge-selector";
+
 import clsx from "clsx";
 
 export interface BubbleMenuItem {
@@ -75,11 +77,12 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
 
   const [isNodeSelectorOpen, setIsNodeSelectorOpen] = useState(false);
   const [isColorSelectorOpen, setIsColorSelectorOpen] = useState(false);
+  const [isDylogeSelectorOpen, setIsDylogeSelectorOpen] = useState(false);
 
   return (
     <BubbleMenu
       {...bubbleMenuProps}
-      className="menu menu-horizontal bg-base-200 rounded-sm w-96 flex justify-between"
+      className="menu menu-horizontal bg-base-200 rounded-sm w-96 flex justify-between items-center"
     >
       <NodeSelector
         editor={props.editor}
@@ -105,6 +108,14 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
         isOpen={isColorSelectorOpen}
         setIsOpen={() => {
           setIsColorSelectorOpen(!isColorSelectorOpen);
+          setIsNodeSelectorOpen(false);
+        }}
+      />
+      <DylogeSelector
+        editor={props.editor}
+        isOpen={isDylogeSelectorOpen}
+        setIsOpen={() => {
+          setIsDylogeSelectorOpen(!isDylogeSelectorOpen);
           setIsNodeSelectorOpen(false);
         }}
       />

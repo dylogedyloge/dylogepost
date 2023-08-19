@@ -353,7 +353,6 @@ const CommandList = ({
           >
             <div className="flex h-10 w-10 items-center justify-center rounded-md  bg-base-100">
               {item.title === "Continue writing" && isLoading ? (
-                // <LoadingCircle />
                 <span className="loading loading-ring loading-xs"></span>
               ) : (
                 item.icon

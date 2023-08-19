@@ -79,7 +79,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
   return (
     <BubbleMenu
       {...bubbleMenuProps}
-      className="menu menu-horizontal bg-base-200 rounded-sm w-96 flex justify-between"
+      className="menu menu-horizontal bg-base-200 rounded-sm w-96 flex justify-between items-center"
     >
       <NodeSelector
         editor={props.editor}

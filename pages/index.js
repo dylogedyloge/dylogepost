@@ -240,10 +240,6 @@ export default function Home({ dir }) {
               } dropdown dropdown-bottom flex gap-4`}
             >
               <label tabIndex={0} className="cursor-pointer">
-                {/* <ReactCountryFlag
-                  countryCode={locale === "fa" ? "IR" : "US"}
-                  svg
-                /> */}
                 <ReactCountryFlag
                   countryCode={locale === "fa" ? "IR" : "US"}
                   svg
