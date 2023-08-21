@@ -20,6 +20,12 @@ import { useRouter } from "next/router";
 
 export default function Editor(props) {
   const [content, setContent] = useState("");
+  const [selectedText, setSelectedText] = useState("");
+
+  const handleTextSelection = () => {
+    const selection = window.getSelection().toString();
+    setSelectedText(selection);
+  };
 
   useEffect(() => {
     setContent(props.postContent);
@@ -114,6 +120,7 @@ export default function Editor(props) {
     onUpdate: (e) => {
       setSaveStatus("Unsaved");
       const selection = e.editor.state.selection;
+
       const lastTwo = e.editor.state.doc.textBetween(
         selection.from - 2,
         selection.from,
@@ -127,13 +134,19 @@ export default function Editor(props) {
         complete(e.editor.getText());
         va.track("Autocomplete Shortcut Used");
       }
+      const selectedText = e.editor.state.doc.textBetween(
+        selection.from,
+        selection.to
+      );
+      console.log("Selected Text:", selectedText);
     },
+
     content,
   });
 
   const { complete, completion, isLoading, stop } = useCompletion({
     id: "novel",
-    api: "/api/generate",
+    api: "/api/post/continue",
     onResponse: (response) => {
       if (response.status === 429) {
         toast.error("You have reached your request limit for the day.");
@@ -213,7 +226,7 @@ export default function Editor(props) {
           }}
           className="min-h-screen min-w-screen sm:mx-10"
         >
-          <div className="card mx-10 sm:mx-32 shadow-2xl p-10    rounded-md">
+          <div className="card mx-10 sm:mx-32 shadow-2xl p-10 rounded-md">
             <div className=" text-2xl font-bold mt-4 mb-6 prose-sm ">
               {props.title}
             </div>
@@ -230,7 +243,9 @@ export default function Editor(props) {
             </div>
           </div>
           <div className="divider"></div>
-          {editor && <EditorBubbleMenu editor={editor} />}
+          {editor && (
+            <EditorBubbleMenu editor={editor} selectedText={selectedText} />
+          )}
           <EditorContent editor={editor} className="p-10 prose-sm w-full" />
         </div>
         {/* Actions */}

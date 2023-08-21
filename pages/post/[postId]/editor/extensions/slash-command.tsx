@@ -14,19 +14,15 @@ import tippy from "tippy.js";
 import { LuHeading1, LuHeading2, LuHeading3 } from "react-icons/lu";
 import {
   BsCardImage,
-  BsCheck2Square,
   BsCodeSlash,
   BsQuote,
   BsTextParagraph,
 } from "react-icons/bs";
 import { AiOutlineOrderedList, AiOutlineUnorderedList } from "react-icons/ai";
-import { VscDebugContinueSmall } from "react-icons/vsc";
-// import LoadingCircle from "@/ui/icons/loading-circle";
 import { toast } from "sonner";
 import va from "@vercel/analytics";
-// import Magic from "@/ui/icons/magic";
-import { handleImageUpload } from "../../../../../lib/editor";
-import { BiMessageRoundedDetail } from "react-icons/bi";
+// import { handleImageUpload } from "../../../../../lib/editor";
+import { getPrevText } from "@/lib/editor";
 import Image from "next/image";
 
 interface CommandItemProps {
@@ -72,21 +68,11 @@ const Command = Extension.create({
 
 const getSuggestionItems = ({ query }: { query: string }) => {
   return [
-    {
-      title: "Continue writing",
-      description: "Use AI to expand your thoughts.",
-      searchTerms: ["gpt"],
-      icon: <Image src="/logo4.svg" alt="dyloge" width={20} height={20} />,
-      //  <Magic className="w-7 text-business" />
-    },
     // {
-    //   title: "Send Feedback",
-    //   description: "Let us know how we can improve.",
-    //   icon: <BiMessageRoundedDetail />,
-    //   command: ({ editor, range }: CommandProps) => {
-    //     editor.chain().focus().deleteRange(range).run();
-    //     window.open("/feedback", "_blank");
-    //   },
+    //   title: "Continue writing",
+    //   description: "Use AI to expand your thoughts.",
+    //   searchTerms: ["gpt"],
+    //   icon: <Image src="/logo4.png" alt="dyloge" width={20} height={20} />,
     // },
     {
       title: "Text",
@@ -102,15 +88,6 @@ const getSuggestionItems = ({ query }: { query: string }) => {
           .run();
       },
     },
-    // {
-    //   title: "To-do List",
-    //   description: "Track tasks with a to-do list.",
-    //   searchTerms: ["todo", "task", "list", "check", "checkbox"],
-    //   icon: <BsCheck2Square />,
-    //   command: ({ editor, range }: CommandProps) => {
-    //     editor.chain().focus().deleteRange(range).toggleTaskList().run();
-    //   },
-    // },
     {
       title: "Heading 1",
       description: "Big section heading.",
@@ -193,26 +170,26 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       command: ({ editor, range }: CommandProps) =>
         editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
     },
-    {
-      title: "Image",
-      description: "Upload an image from your device.",
-      searchTerms: ["photo", "picture", "media"],
-      icon: <BsCardImage />,
-      command: ({ editor, range }: CommandProps) => {
-        editor.chain().focus().deleteRange(range).run();
-        // upload image
-        const input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.onchange = async (event) => {
-          if (input.files?.length) {
-            const file = input.files[0];
-            return handleImageUpload(file, editor.view, event);
-          }
-        };
-        input.click();
-      },
-    },
+    // {
+    //   title: "Image",
+    //   description: "Upload an image from your device.",
+    //   searchTerms: ["photo", "picture", "media"],
+    //   icon: <BsCardImage />,
+    //   command: ({ editor, range }: CommandProps) => {
+    //     editor.chain().focus().deleteRange(range).run();
+    //     // upload image
+    //     const input = document.createElement("input");
+    //     input.type = "file";
+    //     input.accept = "image/*";
+    //     input.onchange = async (event) => {
+    //       if (input.files?.length) {
+    //         const file = input.files[0];
+    //         return handleImageUpload(file, editor.view, event);
+    //       }
+    //     };
+    //     input.click();
+    //   },
+    // },
   ].filter((item) => {
     if (typeof query === "string" && query.length > 0) {
       const search = query.toLowerCase();
@@ -285,9 +262,12 @@ const CommandList = ({
       });
       if (item) {
         if (item.title === "Continue writing") {
-          // we're using this for now until we can figure out a way to stream markdown text with proper formatting: https://github.com/steven-tey/novel/discussions/7
-          complete(editor.getText());
-          // complete(editor.storage.markdown.getMarkdown());
+          complete(
+            getPrevText(editor, {
+              chars: 5000,
+              offset: 1,
+            })
+          );
         } else {
           command(item);
         }
@@ -345,13 +325,13 @@ const CommandList = ({
       {items.map((item: CommandItemProps, index: number) => {
         return (
           <button
-            className={`flex w-full  items-center my-1 space-x-2 rounded-md p-2 text-left text-sm hover:bg-base-300  prose-sm ${
+            className={`flex w-full  items-center my-1 space-x-2 rounded-sm p-2 text-left text-sm hover:bg-base-300  prose-sm ${
               index === selectedIndex ? "bg-base-300 text-base-content" : ""
             }`}
             key={index}
             onClick={() => selectItem(index)}
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-md  bg-base-100">
+            <div className="flex h-10 w-10 items-center justify-center rounded-sm  bg-base-100">
               {item.title === "Continue writing" && isLoading ? (
                 // <LoadingCircle />
                 <span className="loading loading-ring loading-xs"></span>
@@ -361,7 +341,7 @@ const CommandList = ({
             </div>
             <div>
               <div className="flex flex-col justify-center items-start h-10">
-                <div className="font-semibold prose-sm font-sans-en">
+                <div className="font-semibold prose-sm text-xs font-sans-en">
                   {item.title}
                 </div>
                 <div className="text-xs text-base-content prose-sm font-sans-en">

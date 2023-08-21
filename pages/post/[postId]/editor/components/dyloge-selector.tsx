@@ -2,19 +2,18 @@ import { Editor } from "@tiptap/core";
 import {
   BsArrowsCollapse,
   BsArrowsExpand,
-  BsCheck2,
   BsCircle,
   BsFilter,
   BsRepeat,
   BsSpellcheck,
   BsTextWrap,
-  BsTranslate,
 } from "react-icons/bs";
 import { BiSolidChevronDown } from "react-icons/bi";
 import { Dispatch, FC, SetStateAction } from "react";
 import Image from "next/image";
 import ReactCountryFlag from "react-country-flag";
 import { BsFillFastForwardFill } from "react-icons/bs";
+
 export interface BubbleDylogeMenuItem {
   name: string;
   flagIcon: string;
@@ -24,6 +23,7 @@ interface DylogeSelectorProps {
   editor: Editor;
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  selectedText: string;
 }
 
 // const TEXT_COLORS: BubbleDylogeMenuItem[] = [
@@ -90,6 +90,7 @@ export const DylogeSelector: FC<DylogeSelectorProps> = ({
   editor,
   isOpen,
   setIsOpen,
+  selectedText,
 }) => {
   const activeColorItem = LANGUAGES.find(({ color }) =>
     editor.isActive("textStyle", { color })
@@ -141,6 +142,7 @@ export const DylogeSelector: FC<DylogeSelectorProps> = ({
                     //     editor.chain().focus().setColor(color).run();
                     //   setIsOpen(false);
                     // }}
+                    onClick={() => console.log("selectedtext", selectedText)}
                     className="flex h-full w-full justify-between items-center gap-1 p-2 text-sm font-medium rounded-md hover:bg-base-300 active:bg-base-300"
                   >
                     {icon}

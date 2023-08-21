@@ -13,17 +13,17 @@ import Highlight from "@tiptap/extension-highlight";
 import Collaboration from "@tiptap/extension-collaboration";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import * as Y from "yjs";
-import { HocuspocusProvider } from "@hocuspocus/provider";
-import SlashCommand from "./slash-command";
+// import { HocuspocusProvider } from "@hocuspocus/provider";
+// import SlashCommand from "./slash-command";
 import { InputRule } from "@tiptap/core";
 
-const ydoc = new Y.Doc();
+// const ydoc = new Y.Doc();
 
-const provider = new HocuspocusProvider({
-  url: "ws://127.0.0.1:1234",
-  name: "example-document",
-  document: ydoc,
-});
+// const provider = new HocuspocusProvider({
+//   url: "ws://127.0.0.1:1234",
+//   name: "example-document",
+//   document: ydoc,
+// });
 
 export const TiptapExtensions = [
   StarterKit.configure({
@@ -114,7 +114,7 @@ export const TiptapExtensions = [
     },
     includeChildren: true,
   }),
-  SlashCommand,
+  // SlashCommand,
   TiptapUnderline,
   TextStyle,
   Color,
@@ -136,11 +136,11 @@ export const TiptapExtensions = [
     linkify: true,
     transformCopiedText: true,
   }),
-  Collaboration.configure({
-    document: ydoc,
-  }),
-  CollaborationCursor.configure({
-    provider,
-    user: { name: "John Doe", color: "#ffcc00" },
-  }),
+  // Collaboration.configure({
+  //   document: ydoc,
+  // }),
+  // CollaborationCursor.configure({
+  //   provider,
+  //   user: { name: "John Doe", color: "#ffcc00" },
+  // }),
 ];

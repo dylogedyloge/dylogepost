@@ -146,7 +146,7 @@ export const ColorSelector: FC<ColorSelectorProps> = ({
                   >
                     <div className="flex items-center space-x-2 ">
                       <div
-                        className="rounded-sm px-1 py-px font-medium "
+                        className="rounded-sm px-1 py-px font-bold text-sm prose-sm"
                         style={{ color }}
                       >
                         A
@@ -178,7 +178,7 @@ export const ColorSelector: FC<ColorSelectorProps> = ({
                   >
                     <div className="flex items-center space-x-2 ">
                       <div
-                        className="rounded-sm  px-1 py-px font-medium text-base-content "
+                        className="rounded-sm px-1 py-px font-bold text-sm prose-sm text-base-content "
                         style={{ backgroundColor: color }}
                       >
                         A

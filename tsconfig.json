@@ -24,7 +24,8 @@
     "**/*.tsx",
     "pages/index.js",
     "pages/_document.js",
-    "pages/_app.js"
+    "pages/_app.js",
+    "pages/api/continue.js"
   ],
   "exclude": ["node_modules"]
 }
