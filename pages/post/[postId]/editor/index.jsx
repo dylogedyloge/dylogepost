@@ -20,11 +20,11 @@ import { useRouter } from "next/router";
 
 export default function Editor(props) {
   const [content, setContent] = useState("");
-  const [selectedText, setSelectedText] = useState("");
+  const [selectedText, setSelectedText] = useState(""); // Add this state
 
   const handleTextSelection = () => {
-    const selection = window.getSelection().toString();
-    setSelectedText(selection);
+    setSelectedText(window.getSelection().toString());
+    // console.log(selectedText);
   };
 
   useEffect(() => {
@@ -134,11 +134,6 @@ export default function Editor(props) {
         complete(e.editor.getText());
         va.track("Autocomplete Shortcut Used");
       }
-      const selectedText = e.editor.state.doc.textBetween(
-        selection.from,
-        selection.to
-      );
-      console.log("Selected Text:", selectedText);
     },
 
     content,
@@ -246,7 +241,11 @@ export default function Editor(props) {
           {editor && (
             <EditorBubbleMenu editor={editor} selectedText={selectedText} />
           )}
-          <EditorContent editor={editor} className="p-10 prose-sm w-full" />
+          <EditorContent
+            editor={editor}
+            onMouseUp={handleTextSelection}
+            className="p-10 prose-sm w-full"
+          />
         </div>
         {/* Actions */}
 

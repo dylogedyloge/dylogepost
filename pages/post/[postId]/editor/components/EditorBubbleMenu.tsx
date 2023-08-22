@@ -21,7 +21,10 @@ export interface BubbleMenuItem {
   icon: typeof BsTypeBold;
 }
 
-type EditorBubbleMenuProps = Omit<BubbleMenuProps, "children">;
+// type EditorBubbleMenuProps = Omit<BubbleMenuProps, "children">;
+export interface EditorBubbleMenuProps extends BubbleMenuProps {
+  selectedText: string; // Add this line
+}
 
 export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
   const items: BubbleMenuItem[] = [
@@ -118,6 +121,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
           setIsDylogeSelectorOpen(!isDylogeSelectorOpen);
           setIsNodeSelectorOpen(false);
         }}
+        selectedText={props.selectedText}
       />
     </BubbleMenu>
   );

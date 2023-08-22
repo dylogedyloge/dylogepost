@@ -9,10 +9,11 @@ import {
   BsTextWrap,
 } from "react-icons/bs";
 import { BiSolidChevronDown } from "react-icons/bi";
-import { Dispatch, FC, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction, useState } from "react";
 import Image from "next/image";
 import ReactCountryFlag from "react-country-flag";
 import { BsFillFastForwardFill } from "react-icons/bs";
+import { useRouter } from "next/router";
 
 export interface BubbleDylogeMenuItem {
   name: string;
@@ -100,6 +101,32 @@ export const DylogeSelector: FC<DylogeSelectorProps> = ({
     editor.isActive("highlight", { color })
   );
 
+  const router = useRouter();
+
+  // Continue
+  const [generating, setGenerating] = useState(false);
+  const handleContinue = async (e: any) => {
+    e.preventDefault();
+    setGenerating(true);
+    try {
+      const response = await fetch(`/api/posts/continue`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({ selectedText }),
+      });
+      const json = await response.json();
+
+      if (json?.postId) {
+        router.push(`/post/${json.postId}/editor`);
+      }
+    } catch (e) {
+      setGenerating(false);
+    }
+  };
+
   return (
     <div className="relative h-full">
       <button
@@ -136,13 +163,10 @@ export const DylogeSelector: FC<DylogeSelectorProps> = ({
                 {ACTIONS.map(({ name, icon }, index) => (
                   <button
                     key={index}
-                    // onClick={() => {
-                    //   editor.commands.unsetColor();
-                    //   name !== "Default" &&
-                    //     editor.chain().focus().setColor(color).run();
-                    //   setIsOpen(false);
-                    // }}
-                    onClick={() => console.log("selectedtext", selectedText)}
+                    onClick={() => {
+                      console.log(selectedText);
+                      setIsOpen(false);
+                    }}
                     className="flex h-full w-full justify-between items-center gap-1 p-2 text-sm font-medium rounded-md hover:bg-base-300 active:bg-base-300"
                   >
                     {icon}
