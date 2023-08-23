@@ -25,7 +25,8 @@
     "pages/index.js",
     "pages/_document.js",
     "pages/_app.js",
-    "pages/api/continue.js"
+    "pages/api/continue.js",
+    "pages/api/posts/actions/continue.js"
   ],
   "exclude": ["node_modules"]
 }
