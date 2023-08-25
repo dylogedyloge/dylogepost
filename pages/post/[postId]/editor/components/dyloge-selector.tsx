@@ -124,23 +124,31 @@ export const DylogeSelector: FC<DylogeSelectorProps> = ({
       });
 
       const json = await response.json();
+      const generatedText = json.generatedContent;
       if (api === "/continue") {
         if (response.ok) {
-          if (json.generatedContent) {
-            const newText = `${selectedText} ${json.generatedContent}`;
-            console.log(newText);
+          if (generatedText) {
+            const newText = `${selectedText} ${generatedText}`;
             editor.chain().focus().insertContent(newText).run();
+            editor?.commands.setTextSelection({
+              from: editor.state.selection.from - generatedText.length,
+              to: editor.state.selection.from,
+            });
           }
         } else {
           console.error("API call failed");
         }
       } else {
         if (response.ok) {
-          if (json.generatedContent) {
+          if (generatedText) {
             const newText = editor
               .getHTML()
-              .replace(selectedText, json.generatedContent);
+              .replace(selectedText, generatedText);
             editor.commands.setContent(newText);
+            editor?.commands.setTextSelection({
+              from: editor.state.selection.from - generatedText.length,
+              to: editor.state.selection.from,
+            });
           }
         } else {
           console.error("API call failed");

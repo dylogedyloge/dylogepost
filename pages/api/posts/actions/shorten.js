@@ -30,7 +30,7 @@ export default withApiAuthRequired(async function handler(req, res) {
       },
       {
         role: "user",
-        content: `suggest a shorter version of this text: ${selectedText}.`,
+        content: `write a shorter version of this text: ${selectedText}.`,
       },
     ],
     temperature: 0,
