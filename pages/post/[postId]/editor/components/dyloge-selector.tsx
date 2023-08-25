@@ -20,7 +20,7 @@ import { Dispatch, FC, SetStateAction, useState } from "react";
 import Image from "next/image";
 import ReactCountryFlag from "react-country-flag";
 import { BsFillFastForwardFill } from "react-icons/bs";
-import { useRouter } from "next/router";
+import Loading from "@/components/Loading/Loading";
 
 export interface BubbleDylogeMenuItem {
   name: string;
@@ -106,13 +106,14 @@ export const DylogeSelector: FC<DylogeSelectorProps> = ({
   setIsOpen,
   selectedText,
 }) => {
-  const router = useRouter();
-
   const [generating, setGenerating] = useState(false);
+  const [generatingIndex, setGeneratingIndex] = useState(-1);
+
   // call actions api
-  const handleAction = async (api: string) => {
+  const handleAction = async (api: string, index: number) => {
     try {
       setGenerating(true);
+      setGeneratingIndex(index);
       const response = await fetch(`/api/posts/actions${api}`, {
         method: "POST",
         headers: {
@@ -122,15 +123,34 @@ export const DylogeSelector: FC<DylogeSelectorProps> = ({
         body: JSON.stringify({ selectedText }),
       });
 
-      if (response.ok) {
-        console.log("API call successful");
+      const json = await response.json();
+      if (api === "/continue") {
+        if (response.ok) {
+          if (json.generatedContent) {
+            const newText = `${selectedText} ${json.generatedContent}`;
+            console.log(newText);
+            editor.chain().focus().insertContent(newText).run();
+          }
+        } else {
+          console.error("API call failed");
+        }
       } else {
-        console.error("API call failed");
+        if (response.ok) {
+          if (json.generatedContent) {
+            const newText = editor
+              .getHTML()
+              .replace(selectedText, json.generatedContent);
+            editor.commands.setContent(newText);
+          }
+        } else {
+          console.error("API call failed");
+        }
       }
     } catch (error) {
       console.error("An error occurred", error);
     } finally {
       setGenerating(false);
+      setGeneratingIndex(-1);
       setIsOpen(false);
     }
   };
@@ -215,10 +235,16 @@ export const DylogeSelector: FC<DylogeSelectorProps> = ({
                 {ACTIONS.map(({ name, icon, api }, index) => (
                   <button
                     key={index}
-                    onClick={() => handleAction(api)}
+                    onClick={() => handleAction(api, index)}
                     className="flex h-full w-full justify-between items-center gap-1 p-2 text-sm font-medium rounded-md hover:bg-base-300 active:bg-base-300"
+                    disabled={generating}
                   >
-                    {icon}
+                    {generating && generatingIndex === index ? (
+                      <span className="loading loading-ring loading-sm"></span>
+                    ) : (
+                      <div>{icon}</div>
+                    )}
+
                     <div className="flex items-center space-x-2 ">
                       <span className="text-xs prose-sm capitalize">
                         {name}
