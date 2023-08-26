@@ -37,7 +37,6 @@ export default withApiAuthRequired(async function handler(req, res) {
   });
 
   const toneContent = toneContentResult.data.choices[0]?.message.content;
-  console.log(toneContent);
 
-  res.status(200).json({ message: "API call successful" });
+  res.status(200).json({ selectedText, generatedContent: toneContent });
 });

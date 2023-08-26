@@ -37,7 +37,6 @@ export default withApiAuthRequired(async function handler(req, res) {
   });
 
   const extendContent = extendContentResult.data.choices[0]?.message.content;
-  console.log(extendContent);
 
-  res.status(200).json({ message: "API call successful" });
+  res.status(200).json({ selectedText, generatedContent: extendContent });
 });

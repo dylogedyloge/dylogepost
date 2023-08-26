@@ -44,8 +44,6 @@ export default withApiAuthRequired(async function handler(req, res) {
     const continueContent =
       continueContentResult.data.choices[0]?.message.content;
 
-    //  res.status(200).json({ generatedContent: continueContent });
-    // res.status(200).json({ generatedContent: continueContent });
     res.status(200).json({ selectedText, generatedContent: continueContent });
   }
 });

@@ -125,34 +125,20 @@ export const DylogeSelector: FC<DylogeSelectorProps> = ({
 
       const json = await response.json();
       const generatedText = json.generatedContent;
-      if (api === "/continue") {
-        if (response.ok) {
-          if (generatedText) {
-            const newText = `${selectedText} ${generatedText}`;
-            editor.chain().focus().insertContent(newText).run();
-            editor?.commands.setTextSelection({
-              from: editor.state.selection.from - generatedText.length,
-              to: editor.state.selection.from,
-            });
-          }
-        } else {
-          console.error("API call failed");
+      if (response.ok) {
+        if (generatedText) {
+          const newText =
+            api === "/continue"
+              ? `${selectedText} ${generatedText}`
+              : generatedText;
+          editor.chain().focus().insertContent(newText).run();
+          editor?.commands.setTextSelection({
+            from: editor.state.selection.from - generatedText.length,
+            to: editor.state.selection.from,
+          });
         }
       } else {
-        if (response.ok) {
-          if (generatedText) {
-            const newText = editor
-              .getHTML()
-              .replace(selectedText, generatedText);
-            editor.commands.setContent(newText);
-            editor?.commands.setTextSelection({
-              from: editor.state.selection.from - generatedText.length,
-              to: editor.state.selection.from,
-            });
-          }
-        } else {
-          console.error("API call failed");
-        }
+        console.error("API call failed");
       }
     } catch (error) {
       console.error("An error occurred", error);
@@ -163,9 +149,10 @@ export const DylogeSelector: FC<DylogeSelectorProps> = ({
     }
   };
   // call translate api
-  const handleTranslate = async (name: string) => {
+  const handleTranslate = async (name: string, index: number) => {
     try {
       setGenerating(true);
+      setGeneratingIndex(index);
       const response = await fetch(`/api/posts/translate`, {
         method: "POST",
         headers: {
@@ -174,9 +161,18 @@ export const DylogeSelector: FC<DylogeSelectorProps> = ({
         },
         body: JSON.stringify({ selectedText, name }),
       });
+      const json = await response.json();
+      const generatedText = json.generatedContent;
 
       if (response.ok) {
-        console.log("API call successful");
+        if (generatedText) {
+          const newText = `${generatedText}`;
+          editor.chain().focus().insertContent(newText).run();
+          editor?.commands.setTextSelection({
+            from: editor.state.selection.from - generatedText.length,
+            to: editor.state.selection.from,
+          });
+        }
       } else {
         console.error("API call failed");
       }
@@ -184,13 +180,15 @@ export const DylogeSelector: FC<DylogeSelectorProps> = ({
       console.error("An error occurred", error);
     } finally {
       setGenerating(false);
+      setGeneratingIndex(-1);
       setIsOpen(false);
     }
   };
   // call tone api
-  const handleTone = async (name: string) => {
+  const handleTone = async (name: string, index: number) => {
     try {
       setGenerating(true);
+      setGeneratingIndex(index);
       const response = await fetch(`/api/posts/tone`, {
         method: "POST",
         headers: {
@@ -199,9 +197,18 @@ export const DylogeSelector: FC<DylogeSelectorProps> = ({
         },
         body: JSON.stringify({ selectedText, name }),
       });
+      const json = await response.json();
+      const generatedText = json.generatedContent;
 
       if (response.ok) {
-        console.log("API call successful");
+        if (generatedText) {
+          const newText = `${generatedText}`;
+          editor.chain().focus().insertContent(newText).run();
+          editor?.commands.setTextSelection({
+            from: editor.state.selection.from - generatedText.length,
+            to: editor.state.selection.from,
+          });
+        }
       } else {
         console.error("API call failed");
       }
@@ -209,6 +216,7 @@ export const DylogeSelector: FC<DylogeSelectorProps> = ({
       console.error("An error occurred", error);
     } finally {
       setGenerating(false);
+      setGeneratingIndex(-1);
       setIsOpen(false);
     }
   };
@@ -269,18 +277,24 @@ export const DylogeSelector: FC<DylogeSelectorProps> = ({
                 </summary>
                 {LANGUAGES.map(({ name, flagIcon }, index) => (
                   <button
-                    onClick={() => handleTranslate(name)}
+                    onClick={() => handleTranslate(name, index)}
                     key={index}
                     className="capitalize text-xs prose-sm flex h-full w-full  justify-between items-center gap-1 p-3    rounded-md hover:bg-base-300 active:bg-base-300"
+                    disabled={generating}
                   >
-                    <ReactCountryFlag
-                      countryCode={flagIcon}
-                      svg
-                      style={{
-                        width: "0.75rem",
-                        height: "0.75rem",
-                      }}
-                    />
+                    {generating && generatingIndex === index ? (
+                      <span className="loading loading-ring loading-sm"></span>
+                    ) : (
+                      <ReactCountryFlag
+                        countryCode={flagIcon}
+                        svg
+                        style={{
+                          width: "0.75rem",
+                          height: "0.75rem",
+                        }}
+                      />
+                    )}
+
                     {name}
                   </button>
                 ))}
@@ -294,10 +308,15 @@ export const DylogeSelector: FC<DylogeSelectorProps> = ({
                 {TONES.map(({ name, icon }, index) => (
                   <button
                     key={index}
-                    onClick={() => handleTone(name)}
+                    onClick={() => handleTone(name, index)}
                     className="flex h-full w-full justify-between items-center gap-1 p-2 text-sm font-medium rounded-md hover:bg-base-300 active:bg-base-300"
+                    disabled={generating}
                   >
-                    {icon}
+                    {generating && generatingIndex === index ? (
+                      <span className="loading loading-ring loading-sm"></span>
+                    ) : (
+                      <div>{icon}</div>
+                    )}
                     <div className="flex items-center space-x-2 ">
                       <span className="text-xs prose-sm capitalize">
                         {name}
